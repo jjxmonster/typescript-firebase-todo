@@ -1,7 +1,7 @@
-import * as types from '../actions/types';
-import { userLoggedAction } from '../actions/actions';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import type { RootState } from '../store/store';
 
-export interface UserLoginState {
+export interface UserAuthState {
    isUserLogged: boolean;
    user: UserType | undefined;
 }
@@ -9,24 +9,21 @@ export type UserType = {
    name: string;
    todo: object;
 };
-const initialState: UserLoginState = {
+const initialState: UserAuthState = {
    isUserLogged: false,
    user: undefined,
 };
 
-export const userLogin = (
-   state: UserLoginState = initialState,
-   action: actions
-): UserLoginState => {
-   const { type, payload } = action;
-   switch (type) {
-      case types.USER_LOGGED:
-         return { ...state, isUserLogged: true, user: payload };
-      case types.USER_LOGOUT:
-         return { ...state, isUserLogged: false, user: undefined };
-      default:
-         return state;
-   }
-};
+export const userAuthSlice = createSlice({
+   name: 'auth',
+   initialState,
+   reducers: {
+      login: (state, action: PayloadAction<UserType>) => {
+         state.isUserLogged = true;
+         state.user = action.payload;
+      },
+   },
+});
 
-export {};
+export const { login } = userAuthSlice.actions;
+export default userAuthSlice.reducer;
