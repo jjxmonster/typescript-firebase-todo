@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const StyledFormContainer = styled.div`
    width: 30vw;
+   min-width: 500px;
    height: 60vh;
    background: white;
    padding: 0 5%;

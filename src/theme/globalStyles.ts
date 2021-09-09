@@ -20,7 +20,7 @@ export const GlobalStyles = createGlobalStyle`
     list-style:none;
   }
   .MuiInput-underline:after{
-    border-bottom: 2px solid #7cea9c !important;
+    border-bottom: 2px solid #7cea9c;
   }
   .MuiFormLabel-root.Mui-focused{
     color:#7cea9c !important;

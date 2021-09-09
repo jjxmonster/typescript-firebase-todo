@@ -3,7 +3,7 @@ import React, { FunctionComponent, useState } from 'react';
 import { LoginView, RegisterView, AppWrapper } from '../../components';
 
 const UnauthenticatedApp: FunctionComponent = () => {
-   const [isUserHaveAccount, setIsUserHaveAccount] = useState(true);
+   const [isUserHaveAccount, setIsUserHaveAccount] = useState(false);
 
    const changeView = () => {
       setIsUserHaveAccount(!isUserHaveAccount);
@@ -11,7 +11,11 @@ const UnauthenticatedApp: FunctionComponent = () => {
 
    return (
       <AppWrapper>
-         {isUserHaveAccount ? <LoginView /> : <RegisterView />}
+         {isUserHaveAccount ? (
+            <LoginView changeView={changeView} />
+         ) : (
+            <RegisterView changeView={changeView} />
+         )}
       </AppWrapper>
    );
 };

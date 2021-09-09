@@ -4,11 +4,14 @@ import { StyledFormContainer, StyledBottomText } from './LoginView.css';
 // material ui
 import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
-
 // material icons
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
-const LoginView: FunctionComponent = () => {
+interface LoginViewProps {
+   changeView: Function;
+}
+
+const LoginView: FunctionComponent<LoginViewProps> = ({ changeView }) => {
    return (
       <StyledFormContainer>
          <h2>LOGIN</h2>
@@ -28,6 +31,7 @@ const LoginView: FunctionComponent = () => {
                }}
                label='Username'
             />
+
             <TextField
                fullWidth
                style={{
@@ -46,7 +50,7 @@ const LoginView: FunctionComponent = () => {
                }}
                label='Password'
             />
-            <IconButton aria-label='login'>
+            <IconButton aria-label='login' type='submit'>
                <ExitToAppIcon
                   style={{
                      color: '#7cea9c',
@@ -56,7 +60,8 @@ const LoginView: FunctionComponent = () => {
             </IconButton>
          </form>
          <StyledBottomText>
-            Don't have an account? <span>Sign in</span>
+            Don't have an account?{' '}
+            <span onClick={() => changeView()}>Sign in</span>
          </StyledBottomText>
       </StyledFormContainer>
    );
