@@ -1,7 +1,19 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
+
+import { LoginView, RegisterView, AppWrapper } from '../../components';
 
 const UnauthenticatedApp: FunctionComponent = () => {
-   return <div>unauth</div>;
+   const [isUserHaveAccount, setIsUserHaveAccount] = useState(true);
+
+   const changeView = () => {
+      setIsUserHaveAccount(!isUserHaveAccount);
+   };
+
+   return (
+      <AppWrapper>
+         {isUserHaveAccount ? <LoginView /> : <RegisterView />}
+      </AppWrapper>
+   );
 };
 
 export default UnauthenticatedApp;
