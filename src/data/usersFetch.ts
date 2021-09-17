@@ -11,6 +11,7 @@ type UserAuth = {
 type LoginReturnObject = {
    error: boolean;
    message: string;
+   user?: UserType;
 };
 
 export async function getUsers() {
@@ -38,10 +39,17 @@ export async function authUser(user: UserAuth) {
    );
 
    if (isUserInDataBase.length) {
-      if (isUserInDataBase[0].password === user.password) {
+      const userCorrectData = isUserInDataBase[0];
+      const { name, password, todo } = userCorrectData;
+      if (password === user.password) {
          return {
             error: false,
             message: 'User logged',
+            user: {
+               name,
+               password,
+               todo,
+            },
          };
       } else {
          return {

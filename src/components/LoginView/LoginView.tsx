@@ -1,4 +1,5 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
+import { useAppDispatch } from '../../store/hooks';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
 
@@ -10,6 +11,7 @@ import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
 // material icons
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { login } from '../../reducers/userAuth.reducer';
 
 interface LoginViewProps {
    changeView: Function;
@@ -22,9 +24,21 @@ type Inputs = {
 
 const LoginView: FunctionComponent<LoginViewProps> = ({ changeView }) => {
    const { handleSubmit, setValue, register } = useForm<Inputs>();
+   const dispatch = useAppDispatch();
+
+   const [isError, setIsError] = useState(false);
+   const [errorMessage, setErrorMessage] = useState('');
 
    const onSubmit: SubmitHandler<Inputs> = data => {
-      authUser(data).then(res => console.log(res));
+      authUser(data).then(res => {
+         if (!res.error) {
+            setIsError(res.error);
+            if (res.user) dispatch(login(res.user));
+         } else {
+            setIsError(res.error);
+            setErrorMessage(res.message);
+         }
+      });
    };
 
    return (
@@ -69,6 +83,7 @@ const LoginView: FunctionComponent<LoginViewProps> = ({ changeView }) => {
                }}
                label='Password'
             />
+            {isError && <span style={{ color: 'red' }}>{errorMessage}</span>}
             <IconButton aria-label='login' type='submit'>
                <ExitToAppIcon
                   style={{

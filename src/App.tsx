@@ -5,9 +5,9 @@ import { useAppSelector } from './store/hooks';
 import { AuthenticatedApp, UnauthenticatedApp } from './views';
 
 const App: FunctionComponent = () => {
-   const isUserLogged = useAppSelector(state => state.auth);
+   const isUserLogged = useAppSelector(state => state.auth.isUserLogged);
 
-   return <UnauthenticatedApp />;
+   return isUserLogged ? <AuthenticatedApp /> : <UnauthenticatedApp />;
 };
 
 export default App;

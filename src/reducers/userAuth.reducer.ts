@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { RootState } from '../store/store';
 
 export interface UserAuthState {
    isUserLogged: boolean;
@@ -8,7 +7,7 @@ export interface UserAuthState {
 export type UserType = {
    name: string;
    password: string;
-   todo: object;
+   todo: [];
 };
 const initialState: UserAuthState = {
    isUserLogged: false,
