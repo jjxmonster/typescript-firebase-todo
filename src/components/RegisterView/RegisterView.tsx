@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect, useRef } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
 import {
@@ -11,6 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 
 // material icons
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { addUser } from '../../data/usersFetch';
 
 interface RegisterViewProps {
    changeView: Function;
@@ -28,10 +29,36 @@ const RegisterView: FunctionComponent<RegisterViewProps> = ({ changeView }) => {
       handleSubmit,
       watch,
       setValue,
+      reset,
       formState: { errors },
    } = useForm<Inputs>();
 
-   const onSubmit: SubmitHandler<Inputs> = data => console.log(data);
+   const password = useRef('');
+   password.current = watch('password', '');
+
+   const onSubmit: SubmitHandler<Inputs> = data => {
+      const { name, password } = data;
+      addUser({
+         name,
+         password,
+         todo: [],
+      }).then(() => {
+         changeView();
+      });
+   };
+
+   useEffect(() => {
+      // FORM VALIDATION
+      register('name', {
+         validate: value => value?.length >= 3 && value.length < 20,
+      });
+      register('password', {
+         validate: value => value?.length >= 5 && value.length < 15,
+      });
+      register('repeatPassword', {
+         validate: value => value === password.current,
+      });
+   }, [register]);
 
    return (
       <StyledFormContainer>
@@ -44,11 +71,6 @@ const RegisterView: FunctionComponent<RegisterViewProps> = ({ changeView }) => {
                error={Boolean(errors?.name)}
                fullWidth
                id='standard-basic'
-               {...register('name', {
-                  required: true,
-                  maxLength: 10,
-                  minLength: 2,
-               })}
                onChange={e => setValue('name', e.target.value)}
                InputLabelProps={{
                   style: {
@@ -60,7 +82,7 @@ const RegisterView: FunctionComponent<RegisterViewProps> = ({ changeView }) => {
                label='Username'
             />
             {errors.name && (
-               <span>Username must be 2 to 10 characters long.</span>
+               <span>Username must be 3 to 10 characters long.</span>
             )}
             <br></br>
             <TextField
@@ -71,11 +93,6 @@ const RegisterView: FunctionComponent<RegisterViewProps> = ({ changeView }) => {
                error={Boolean(errors?.password)}
                fullWidth
                id='standard-basic'
-               {...register('password', {
-                  required: true,
-                  maxLength: 15,
-                  minLength: 5,
-               })}
                onChange={e => setValue('password', e.target.value)}
                InputLabelProps={{
                   style: {
@@ -96,9 +113,11 @@ const RegisterView: FunctionComponent<RegisterViewProps> = ({ changeView }) => {
                   marginBottom: '10px',
                }}
                id='standard-basic'
+               error={Boolean(errors?.repeatPassword)}
                inputProps={{
                   type: 'password',
                }}
+               onChange={e => setValue('repeatPassword', e.target.value)}
                InputLabelProps={{
                   style: {
                      fontFamily: ` 'Urbanist', sans-serif`,
@@ -108,6 +127,7 @@ const RegisterView: FunctionComponent<RegisterViewProps> = ({ changeView }) => {
                }}
                label='Repeat password'
             />
+            {errors.repeatPassword && <span>The passwords do not match</span>}
             <IconButton aria-label='login' type='submit'>
                <ExitToAppIcon
                   style={{

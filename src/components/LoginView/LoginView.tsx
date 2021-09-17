@@ -1,5 +1,9 @@
 import React, { FunctionComponent } from 'react';
 
+import { useForm, SubmitHandler } from 'react-hook-form';
+
+import { authUser } from '../../data/usersFetch';
+
 import { StyledFormContainer, StyledBottomText } from './LoginView.css';
 // material ui
 import TextField from '@material-ui/core/TextField';
@@ -11,15 +15,28 @@ interface LoginViewProps {
    changeView: Function;
 }
 
+type Inputs = {
+   name: string;
+   password: string;
+};
+
 const LoginView: FunctionComponent<LoginViewProps> = ({ changeView }) => {
+   const { handleSubmit, setValue, register } = useForm<Inputs>();
+
+   const onSubmit: SubmitHandler<Inputs> = data => {
+      authUser(data).then(res => console.log(res));
+   };
+
    return (
       <StyledFormContainer>
          <h2>LOGIN</h2>
-         <form>
+         <form onSubmit={handleSubmit(onSubmit)}>
             <TextField
                style={{
                   marginBottom: '10px',
                }}
+               {...(register('name'), { required: true })}
+               onChange={e => setValue('name', e.target.value)}
                fullWidth
                id='standard-basic'
                InputLabelProps={{
@@ -37,6 +54,8 @@ const LoginView: FunctionComponent<LoginViewProps> = ({ changeView }) => {
                style={{
                   marginBottom: '10px',
                }}
+               {...(register('password'), { required: true })}
+               onChange={e => setValue('password', e.target.value)}
                id='standard-basic'
                inputProps={{
                   type: 'password',
