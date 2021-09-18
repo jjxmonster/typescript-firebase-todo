@@ -8,30 +8,14 @@ type UserAuth = {
    password: string;
 };
 
-type LoginReturnObject = {
-   error: boolean;
-   message: string;
-   user?: UserType;
-};
-
-export async function getUsers() {
-   const usersCollection = collection(db, 'users');
-   const response = await getDocs(usersCollection);
-   const data = response.docs.map(doc => doc.data());
-
-   return data;
-}
-
 export async function addUser(user: UserType) {
-   const usersCollection = collection(db, 'users');
-   const response = await addDoc(usersCollection, user);
+   const response = await addDoc(collection(db, 'users'), user);
 
    return response;
 }
 
 export async function authUser(user: UserAuth) {
-   const usersCollection = collection(db, 'users');
-   const response = await getDocs(usersCollection);
+   const response = await getDocs(collection(db, 'users'));
    const users = response.docs.map(doc => doc.data());
 
    const isUserInDataBase = users.filter(

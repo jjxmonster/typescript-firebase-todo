@@ -1,7 +1,9 @@
 import React, { FunctionComponent } from 'react';
 
+import { UserPanel } from '../../components';
+
 const AuthenticatedApp: FunctionComponent = () => {
-   return <div>Auth</div>;
+   return <UserPanel />;
 };
 
 export default AuthenticatedApp;
