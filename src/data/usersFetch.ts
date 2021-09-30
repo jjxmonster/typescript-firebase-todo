@@ -18,6 +18,13 @@ export async function authUser(user: UserAuth) {
    const response = await getDocs(collection(db, 'users'));
    const users = response.docs.map(doc => doc.data());
 
+   if (response.empty) {
+      return {
+         error: true,
+         message: 'Something went wrong...',
+      };
+   }
+
    const isUserInDataBase = users.filter(
       userFromDB => userFromDB.name === user.name
    );

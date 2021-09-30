@@ -28,3 +28,15 @@ export const StyledTopBar = styled.div`
       font-size: 2vh;
    }
 `;
+export const StyledFormWrapper = styled.div`
+   width: 450px;
+   height: 80%;
+   display: flex;
+   justify-content: center;
+   flex-direction: column;
+   > h2 {
+      font-size: 4vh;
+      color: white;
+      margin-bottom: 20px;
+   }
+`;
