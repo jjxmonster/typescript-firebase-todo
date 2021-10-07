@@ -1,6 +1,9 @@
 import React, { FunctionComponent } from 'react';
 import { useAppSelector } from '../../store/hooks';
+
+//components
 import AddTaskForm from '../AddTaskForm';
+import TasksList from '../TasksList';
 
 import {
    StyledPanelContainer,
@@ -24,7 +27,9 @@ const UserPanelContainer: FunctionComponent = () => {
                <AddTaskForm />
             </StyledFormWrapper>
          </StyledLeftBox>
-         <StyledRightBox></StyledRightBox>
+         <StyledRightBox>
+            <TasksList />
+         </StyledRightBox>
       </StyledPanelContainer>
    );
 };

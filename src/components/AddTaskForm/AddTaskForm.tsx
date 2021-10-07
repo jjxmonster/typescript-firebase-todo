@@ -1,4 +1,7 @@
 import React, { FunctionComponent, MouseEvent } from 'react';
+import { useAppSelector } from '../../store/hooks';
+
+import { addTask } from '../../data/taskFetch';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
 //material ui
@@ -16,6 +19,8 @@ type Inputs = {
 };
 
 const AddTaskForm: FunctionComponent = () => {
+   const user = useAppSelector(state => state.auth.user);
+
    const { handleSubmit, setValue, register } = useForm<Inputs>();
 
    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,7 +28,16 @@ const AddTaskForm: FunctionComponent = () => {
    };
 
    const onSubmit: SubmitHandler<Inputs> = data => {
-      console.log(data);
+      const { name, contents, isImportant } = data;
+      addTask(
+         {
+            name,
+            contents,
+            isImportant,
+            isDone: false,
+         },
+         user
+      );
    };
 
    return (
@@ -37,10 +51,7 @@ const AddTaskForm: FunctionComponent = () => {
                {...(register('name'), { required: true })}
                onChange={e => setValue('name', e.target.value)}
                fullWidth
-               id='standard-basic'
-               inputProps={{
-                  color: 'white',
-               }}
+               id='white-input'
                InputLabelProps={{
                   style: {
                      fontFamily: ` 'Urbanist', sans-serif`,
@@ -58,10 +69,7 @@ const AddTaskForm: FunctionComponent = () => {
                {...register('contents')}
                onChange={e => setValue('contents', e.target.value)}
                fullWidth
-               id='standard-basic'
-               inputProps={{
-                  color: 'white',
-               }}
+               id='white-input'
                InputLabelProps={{
                   style: {
                      fontFamily: ` 'Urbanist', sans-serif`,

@@ -9,9 +9,24 @@ type UserAuth = {
 };
 
 export async function addUser(user: UserType) {
-   const response = await addDoc(collection(db, 'users'), user);
+   return await getDocs(collection(db, 'users')).then(async res => {
+      const users = res.docs.map(doc => doc.data());
+      const isNickTaken = users.filter(({ name }) => name === user.name);
 
-   return response;
+      if (isNickTaken.length > 0) {
+         return {
+            error: true,
+            message: 'Someone already has that username, try another.',
+         };
+      } else {
+         return await addDoc(collection(db, 'users'), user).then(res => {
+            return {
+               error: false,
+               message: 'Ok',
+            };
+         });
+      }
+   });
 }
 
 export async function authUser(user: UserAuth) {

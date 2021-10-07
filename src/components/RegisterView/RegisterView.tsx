@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useRef } from 'react';
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
 import {
@@ -29,21 +29,30 @@ const RegisterView: FunctionComponent<RegisterViewProps> = ({ changeView }) => {
       handleSubmit,
       watch,
       setValue,
-      reset,
+
       formState: { errors },
    } = useForm<Inputs>();
+
+   const [isError, setIsError] = useState(false);
+   const [errorMessage, setErrorMessage] = useState('');
 
    const password = useRef('');
    password.current = watch('password', '');
 
    const onSubmit: SubmitHandler<Inputs> = data => {
       const { name, password } = data;
+
       addUser({
          name,
          password,
          todo: [],
-      }).then(() => {
-         changeView();
+      }).then(res => {
+         if (res.error) {
+            setIsError(true);
+            setErrorMessage(res.message);
+         } else {
+            changeView();
+         }
       });
    };
 
@@ -136,6 +145,7 @@ const RegisterView: FunctionComponent<RegisterViewProps> = ({ changeView }) => {
                   }}
                />
             </IconButton>
+            {isError && <span style={{ color: 'red' }}>{errorMessage}</span>}
          </form>
          <StyledBottomText>
             Already have an account?{' '}

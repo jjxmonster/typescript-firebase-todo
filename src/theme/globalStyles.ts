@@ -25,4 +25,7 @@ export const GlobalStyles = createGlobalStyle`
   .MuiFormLabel-root.Mui-focused{
     color:#7cea9c !important;
   }
+  #white-input{
+    color:white !important;
+  }
 `;
