@@ -1,7 +1,7 @@
 import { configureStore, createStore, combineReducers } from '@reduxjs/toolkit';
 import authReducer from '../reducers/userAuth.reducer';
 
-import { loadState } from '../localStorage/localStorage';
+import { loadState } from '../data/localStorage/localStorage';
 
 const reducers = combineReducers({
    auth: authReducer,

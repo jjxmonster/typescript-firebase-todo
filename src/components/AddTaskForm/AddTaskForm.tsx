@@ -29,15 +29,16 @@ const AddTaskForm: FunctionComponent = () => {
 
    const onSubmit: SubmitHandler<Inputs> = data => {
       const { name, contents, isImportant } = data;
-      addTask(
-         {
-            name,
-            contents,
-            isImportant,
-            isDone: false,
-         },
-         user
-      );
+      if (user)
+         addTask(
+            {
+               name,
+               contents,
+               isImportant,
+               isDone: false,
+            },
+            user
+         );
    };
 
    return (
