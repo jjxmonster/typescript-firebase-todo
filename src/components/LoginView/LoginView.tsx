@@ -3,7 +3,7 @@ import { useAppDispatch } from '../../store/hooks';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
 
-import { authUser } from '../../data/usersFetch';
+import { authUser } from '../../data/firebase/usersFetch';
 
 import { StyledFormContainer, StyledBottomText } from './LoginView.css';
 // material ui

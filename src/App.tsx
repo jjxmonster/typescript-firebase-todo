@@ -4,6 +4,13 @@ import { useAppSelector } from './store/hooks';
 
 import { AuthenticatedApp, UnauthenticatedApp } from './views';
 
+import { saveState } from './localStorage/localStorage';
+import { store } from './store/store';
+
+store.subscribe(() => {
+   saveState(store.getState());
+});
+
 const App: FunctionComponent = () => {
    const isUserLogged = useAppSelector(state => state.auth.isUserLogged);
 

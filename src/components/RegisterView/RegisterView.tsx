@@ -11,7 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 
 // material icons
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { addUser } from '../../data/usersFetch';
+import { addUser } from '../../data/firebase/usersFetch';
 
 interface RegisterViewProps {
    changeView: Function;

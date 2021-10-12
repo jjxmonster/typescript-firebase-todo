@@ -7,6 +7,7 @@ export interface UserAuthState {
 export type UserType = {
    name: string;
    password: string;
+   id?: string;
    todo: [];
 };
 const initialState: UserAuthState = {

@@ -1,7 +1,7 @@
-import React, { FunctionComponent, MouseEvent } from 'react';
+import React, { FunctionComponent } from 'react';
 import { useAppSelector } from '../../store/hooks';
 
-import { addTask } from '../../data/taskFetch';
+import { addTask } from '../../data/firebase/taskFetch';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
 //material ui
