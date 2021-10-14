@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { useAppSelector } from '../../store/hooks';
 
 import { addTask } from '../../data/firebase/taskFetch';
@@ -21,6 +21,10 @@ type Inputs = {
 const AddTaskForm: FunctionComponent = () => {
    const user = useAppSelector(state => state.auth.user);
 
+   const [isMessageShow, setIsMessageShow] = useState(false);
+   const [isError, setIsError] = useState(false);
+   const [errorMessage, setErrorMessage] = useState('');
+
    const { handleSubmit, setValue, register } = useForm<Inputs>();
 
    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,7 +42,11 @@ const AddTaskForm: FunctionComponent = () => {
                isDone: false,
             },
             user
-         );
+         ).then(res => {
+            setIsMessageShow(true);
+            setIsError(res.error);
+            setErrorMessage(res.message);
+         });
    };
 
    return (
@@ -105,12 +113,18 @@ const AddTaskForm: FunctionComponent = () => {
                type='submit'
                variant='contained'
                style={{
+                  marginRight: '20px',
                   width: '120px',
                   background: '#7cea9c',
                }}
             >
                Add task
             </Button>
+            {isMessageShow && (
+               <span style={{ color: isError ? 'red' : 'green' }}>
+                  {errorMessage}
+               </span>
+            )}
          </form>
       </>
    );

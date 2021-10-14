@@ -1,6 +1,7 @@
-import { UserType } from '../../reducers/userAuth.reducer';
 import { db } from '../../firebase/firebase';
-import { collection, doc, getDoc, updateDoc } from '@firebase/firestore';
+import { doc, getDoc, updateDoc } from '@firebase/firestore';
+
+import { UserType } from '../../reducers/userAuth.reducer';
 
 type Task = {
    name: string;
@@ -9,21 +10,24 @@ type Task = {
    isDone: boolean;
    doneDate?: string;
 };
+
 export const addTask = async (task: Task, user: UserType) => {
    if (user.id) {
-      // const userRef = doc(db, 'users', user.id);
       return await getDoc(doc(db, 'users', user.id))
          .then(async res => {
+            const updatedTodoArray = [...res.get('todo'), task];
+
             return await updateDoc(res.ref, {
-               todo: [...[task]],
-            });
+               todo: updatedTodoArray,
+            }).then(res => ({
+               error: false,
+               message: 'Task added successfully.',
+            }));
          })
-         .catch(err => {
-            return {
-               error: true,
-               message: 'Something went wrong...',
-            };
-         });
+         .catch(err => ({
+            error: true,
+            message: 'Something went wrong...',
+         }));
    } else {
       return {
          error: true,
