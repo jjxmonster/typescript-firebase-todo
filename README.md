@@ -34,6 +34,7 @@ npm start
 -  Cloud Firestore
 -  Redux
 -  Styled-Components
+-  Material UI
 -  React-hook-form
 
 Design inspired by <a href='https://www.instagram.com/joeel56/'>joeel56</a>
