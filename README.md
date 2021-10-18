@@ -6,7 +6,7 @@ soon...
   <h3 align="center">TypeScript Todo</h3>
 
   <p align="center">
-    A Todo App using Typescript, React, Redux and Realtime updates with Cloud Firebase.
+    A Todo App using Typescript, React, Redux and Realtime updates with Cloud Firestore.
     <br />
   </p>
 </p>
@@ -34,5 +34,6 @@ npm start
 -  Cloud Firestore
 -  Redux
 -  Styled-Components
+-  React-hook-form
 
 Design inspired by <a href='https://www.instagram.com/joeel56/'>joeel56</a>
