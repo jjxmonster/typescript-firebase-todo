@@ -19,3 +19,8 @@ export type userLogoutAction = Action<null>;
 export function userLogout(): userLogoutAction {
    return createAction(types.USER_LOGOUT, null);
 }
+//////////////////////////////////////////////////////////////////////////////////////////////// UPDATE USER
+export type updateUserAction = Action<UserType>;
+export function updateUser(user: UserType): updateUserAction {
+   return createAction(types.UPDATE_USER, user);
+}

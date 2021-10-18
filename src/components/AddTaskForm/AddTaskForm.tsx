@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
-import { useAppSelector } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 
 import { addTask } from '../../data/firebase/taskFetch';
 
@@ -11,6 +11,7 @@ import {
    FormControlLabel,
    TextField,
 } from '@material-ui/core';
+import { updateUser } from '../../actions/actions';
 
 type Inputs = {
    name: string;
@@ -20,6 +21,7 @@ type Inputs = {
 
 const AddTaskForm: FunctionComponent = () => {
    const user = useAppSelector(state => state.auth.user);
+   const dispatch = useAppDispatch();
 
    const [isMessageShow, setIsMessageShow] = useState(false);
    const [isError, setIsError] = useState(false);
@@ -46,6 +48,7 @@ const AddTaskForm: FunctionComponent = () => {
             setIsMessageShow(true);
             setIsError(res.error);
             setErrorMessage(res.message);
+            // dispatch(updateUser(res.user));
          });
    };
 

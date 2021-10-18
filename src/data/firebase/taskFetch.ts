@@ -1,9 +1,9 @@
 import { db } from '../../firebase/firebase';
-import { doc, getDoc, updateDoc } from '@firebase/firestore';
+import { doc, getDoc, updateDoc, onSnapshot } from '@firebase/firestore';
 
 import { UserType } from '../../reducers/userAuth.reducer';
 
-type Task = {
+export type Task = {
    name: string;
    contents: string;
    isImportant: boolean;

@@ -1,4 +1,4 @@
-import { configureStore, createStore, combineReducers } from '@reduxjs/toolkit';
+import { createStore, combineReducers } from '@reduxjs/toolkit';
 import authReducer from '../reducers/userAuth.reducer';
 
 import { loadState } from '../data/localStorage/localStorage';

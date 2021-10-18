@@ -8,13 +8,13 @@ export const StyledTaskListContainer = styled.div`
    display: flex;
    flex-direction: column;
    overflow: hidden;
+   padding: 5%;
 `;
 
 export const StyledTaskWrapper = styled.div`
    flex: 3.5;
-   background: red;
+   border-bottom: 1px solid grey;
 `;
 export const StyledList = styled.ul`
    flex: 5;
-   background: blue;
 `;
