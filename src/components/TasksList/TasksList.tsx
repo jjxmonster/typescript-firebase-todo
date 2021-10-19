@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 
 import { doc, onSnapshot } from '@firebase/firestore';
 import { db } from '../../firebase/firebase';
@@ -11,6 +11,8 @@ import {
    StyledList,
    StyledTaskListElement,
    StyledEmptyListWrapper,
+   StyledEmptyActiveTaskWrapper,
+   StyledTaskLevelSign,
 } from './TasksList.css';
 
 // types
@@ -20,48 +22,68 @@ import { Task } from '../../data/firebase/taskFetch';
 import DoneIcon from '@material-ui/icons/Done';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-import { IconButton } from '@material-ui/core';
+import { ButtonGroup, IconButton } from '@material-ui/core';
+
+import { ReactComponent as EmptyListPicture } from '../../assets/images/empty-list.svg';
 
 const TasksList: FunctionComponent = () => {
    const user = useAppSelector(state => state.auth.user);
 
    const [tasks, setTasks] = useState<Task[]>();
    const [activeTask, setActiveTask] = useState<Task>();
-
-   onSnapshot(doc(db, 'users', 'kSShkwxbLD3jW36osSLb'), doc => {
-      setTasks(doc.get('todo'));
-   });
+   useEffect(() => {
+      onSnapshot(doc(db, 'users', 'kSShkwxbLD3jW36osSLb'), doc => {
+         setTasks(doc.get('todo'));
+      });
+   }, []);
 
    return (
       <StyledTaskListContainer>
          <StyledTaskWrapper>
-            <h2></h2>
-            <p></p>
+            {activeTask ? (
+               <>
+                  <h2>{activeTask.name}</h2>
+                  <p>{activeTask.contents}</p>
+               </>
+            ) : (
+               <StyledEmptyActiveTaskWrapper>
+                  <h3>Select a task from the list</h3>
+               </StyledEmptyActiveTaskWrapper>
+            )}
          </StyledTaskWrapper>
          {tasks?.length ? (
             <StyledList>
                {tasks?.map(task => (
-                  <StyledTaskListElement onClick={() => setActiveTask(task)}>
-                     <IconButton>
-                        <DoneIcon
-                           style={{
-                              color: 'green',
-                           }}
-                        />
-                     </IconButton>
+                  <StyledTaskListElement
+                     key={task.name}
+                     onClick={() => setActiveTask(task)}
+                  >
+                     <ButtonGroup variant='text' aria-label='text button group'>
+                        <IconButton>
+                           <DoneIcon
+                              style={{
+                                 color: 'green',
+                              }}
+                           />
+                        </IconButton>
+                        <IconButton>
+                           <DeleteIcon
+                              style={{
+                                 color: 'red',
+                              }}
+                           />
+                        </IconButton>
+                     </ButtonGroup>
                      <span>{task.name}</span>
-                     <IconButton>
-                        <DeleteIcon
-                           style={{
-                              color: 'red',
-                           }}
-                        />
-                     </IconButton>
+                     <StyledTaskLevelSign isImportant={task.isImportant}>
+                        <span>{task.isImportant ? 'IMPORTANT' : 'NORMAL'}</span>
+                     </StyledTaskLevelSign>
                   </StyledTaskListElement>
                ))}
             </StyledList>
          ) : (
             <StyledEmptyListWrapper>
+               <EmptyListPicture width='300px' height='150px' />
                <h3>Nothing here, add your first task!</h3>
             </StyledEmptyListWrapper>
          )}
