@@ -76,11 +76,12 @@ export const StyledTaskListElement = styled.li`
 
 export const StyledTaskLevelSign = styled.div<TaskLevelProps>`
    width: 100px;
-   height: 50%;
+   height: 25px;
    border-radius: 60px;
    display: flex;
    justify-content: center;
    align-items: center;
+   user-select: none;
    ${({ isImportant, theme }) =>
       isImportant
          ? `

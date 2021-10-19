@@ -42,7 +42,14 @@ const TasksList: FunctionComponent = () => {
          <StyledTaskWrapper>
             {activeTask ? (
                <>
-                  <h2>{activeTask.name}</h2>
+                  <h2>
+                     <StyledTaskLevelSign isImportant={activeTask.isImportant}>
+                        <span>
+                           {activeTask.isImportant ? 'IMPORTANT' : 'NORMAL'}
+                        </span>
+                     </StyledTaskLevelSign>
+                     {activeTask.name}
+                  </h2>
                   <p>{activeTask.contents}</p>
                </>
             ) : (

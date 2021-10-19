@@ -27,7 +27,7 @@ const AddTaskForm: FunctionComponent = () => {
    const [isError, setIsError] = useState(false);
    const [errorMessage, setErrorMessage] = useState('');
 
-   const { handleSubmit, setValue, register } = useForm<Inputs>();
+   const { handleSubmit, setValue, register, reset } = useForm<Inputs>();
 
    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       setValue('isImportant', event.target.checked);
@@ -48,7 +48,10 @@ const AddTaskForm: FunctionComponent = () => {
             setIsMessageShow(true);
             setIsError(res.error);
             setErrorMessage(res.message);
-            // dispatch(updateUser(res.user));
+            reset({ name: '', contents: '' });
+            setTimeout(() => {
+               setIsMessageShow(false);
+            }, 10000);
          });
    };
 
