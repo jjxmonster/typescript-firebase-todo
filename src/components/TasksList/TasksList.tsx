@@ -112,7 +112,7 @@ const TasksList: FunctionComponent = () => {
             </StyledList>
          ) : (
             <StyledEmptyListWrapper>
-               {/* <EmptyListPicture width='300px' height='150px' /> */}
+               <EmptyListPicture width='300px' height='150px' />
                <h3>Nothing here, add your first task!</h3>
             </StyledEmptyListWrapper>
          )}
