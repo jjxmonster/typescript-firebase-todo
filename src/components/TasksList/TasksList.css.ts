@@ -18,7 +18,11 @@ export const StyledTaskListContainer = styled.div`
 export const StyledTaskWrapper = styled.div`
    flex: 3.5;
    border-bottom: 1px solid grey;
-   > h2 {
+   > #top-bar-task {
+      display: flex;
+      justify-content: space-between;
+   }
+   > div h2 {
       font-size: 2rem;
       margin-bottom: 10px;
    }

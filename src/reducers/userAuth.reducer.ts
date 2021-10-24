@@ -8,7 +8,7 @@ export type UserType = {
    name: string;
    password: string;
    id?: string;
-   todo: [];
+   todo?: [];
 };
 const initialState: UserAuthState = {
    isUserLogged: false,

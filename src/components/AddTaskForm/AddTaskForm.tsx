@@ -4,6 +4,9 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { addTask } from '../../data/firebase/taskFetch';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
+
+import crypto from 'crypto';
+
 //material ui
 import {
    Button,
@@ -11,7 +14,6 @@ import {
    FormControlLabel,
    TextField,
 } from '@material-ui/core';
-import { updateUser } from '../../actions/actions';
 
 type Inputs = {
    name: string;
@@ -35,12 +37,15 @@ const AddTaskForm: FunctionComponent = () => {
 
    const onSubmit: SubmitHandler<Inputs> = data => {
       const { name, contents, isImportant } = data;
+      const taskId = crypto.randomBytes(10).toString('hex');
       if (user)
          addTask(
             {
+               id: taskId,
                name,
                contents,
-               isImportant,
+               isImportant: isImportant ? true : false,
+               date: new Date().toLocaleString(),
                isDone: false,
             },
             user

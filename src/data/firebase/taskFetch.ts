@@ -1,13 +1,15 @@
 import { db } from '../../firebase/firebase';
-import { doc, getDoc, updateDoc, onSnapshot } from '@firebase/firestore';
+import { arrayUnion, doc, getDoc, updateDoc } from '@firebase/firestore';
 
 import { UserType } from '../../reducers/userAuth.reducer';
 
 export type Task = {
+   id: string;
    name: string;
    contents: string;
    isImportant: boolean;
    isDone: boolean;
+   date: string;
    doneDate?: string;
 };
 
@@ -15,14 +17,46 @@ export const addTask = async (task: Task, user: UserType) => {
    if (user.id) {
       return await getDoc(doc(db, 'users', user.id))
          .then(async res => {
-            const updatedTodoArray = [...res.get('todo'), task];
-
             return await updateDoc(res.ref, {
-               todo: updatedTodoArray,
+               todo: arrayUnion(task),
             }).then(res => ({
                error: false,
                message: 'Task added successfully.',
             }));
+         })
+         .catch(err => {
+            console.log(err);
+            return {
+               error: true,
+               message: 'Something went wrong...',
+            };
+         });
+   } else {
+      return {
+         error: true,
+         message: `This scenario will never happend but TS tell it's could be error idk`,
+      };
+   }
+};
+
+export const deleteTask = async (taskToDelete: Task, user: UserType) => {
+   if (user.id) {
+      return await getDoc(doc(db, 'users', user.id))
+         .then(async res => {
+            const taskList = res.data()?.todo;
+            return await updateDoc(res.ref, {
+               todo: taskList.filter(
+                  (task: Task) => task.id !== taskToDelete.id
+               ),
+            })
+               .then(res => ({
+                  error: false,
+                  message: 'Task added successfully.',
+               }))
+               .catch(err => ({
+                  error: true,
+                  message: 'Something went wrong...',
+               }));
          })
          .catch(err => ({
             error: true,

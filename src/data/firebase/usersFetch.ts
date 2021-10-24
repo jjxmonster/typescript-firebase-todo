@@ -77,7 +77,6 @@ export async function authUser(user: UserAuth): Promise<SubmitResponse> {
                               name,
                               password,
                               id: usersId[actualUserIndex],
-                              todo,
                            },
                         };
                      })

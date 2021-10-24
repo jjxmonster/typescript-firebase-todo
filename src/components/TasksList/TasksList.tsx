@@ -1,7 +1,13 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, {
+   FunctionComponent,
+   MouseEvent,
+   useEffect,
+   useState,
+} from 'react';
 
 import { doc, onSnapshot } from '@firebase/firestore';
 import { db } from '../../firebase/firebase';
+import { deleteTask } from '../../data/firebase/taskFetch';
 
 import { useAppSelector } from '../../store/hooks';
 
@@ -17,6 +23,7 @@ import {
 
 // types
 import { Task } from '../../data/firebase/taskFetch';
+import { UserType } from '../../reducers/userAuth.reducer';
 
 // material
 import DoneIcon from '@material-ui/icons/Done';
@@ -31,6 +38,16 @@ const TasksList: FunctionComponent = () => {
 
    const [tasks, setTasks] = useState<Task[]>();
    const [activeTask, setActiveTask] = useState<Task>();
+
+   const handleDeleteTask = (task: Task, e: MouseEvent) => {
+      e.stopPropagation();
+      if (user !== undefined) {
+         deleteTask(task, user);
+      } else {
+         return `This scenario will never happend but TS tell it's could be error idk`;
+      }
+   };
+
    useEffect(() => {
       onSnapshot(doc(db, 'users', 'kSShkwxbLD3jW36osSLb'), doc => {
          setTasks(doc.get('todo'));
@@ -42,14 +59,19 @@ const TasksList: FunctionComponent = () => {
          <StyledTaskWrapper>
             {activeTask ? (
                <>
-                  <h2>
-                     <StyledTaskLevelSign isImportant={activeTask.isImportant}>
-                        <span>
-                           {activeTask.isImportant ? 'IMPORTANT' : 'NORMAL'}
-                        </span>
-                     </StyledTaskLevelSign>
-                     {activeTask.name}
-                  </h2>
+                  <div id='top-bar-task'>
+                     <h2>
+                        <StyledTaskLevelSign
+                           isImportant={activeTask.isImportant}
+                        >
+                           <span>
+                              {activeTask.isImportant ? 'IMPORTANT' : 'NORMAL'}
+                           </span>
+                        </StyledTaskLevelSign>
+                        {activeTask.name}
+                     </h2>
+                     <span>{activeTask.date}</span>
+                  </div>
                   <p>{activeTask.contents}</p>
                </>
             ) : (
@@ -73,7 +95,7 @@ const TasksList: FunctionComponent = () => {
                               }}
                            />
                         </IconButton>
-                        <IconButton>
+                        <IconButton onClick={e => handleDeleteTask(task, e)}>
                            <DeleteIcon
                               style={{
                                  color: 'red',
@@ -90,7 +112,7 @@ const TasksList: FunctionComponent = () => {
             </StyledList>
          ) : (
             <StyledEmptyListWrapper>
-               <EmptyListPicture width='300px' height='150px' />
+               {/* <EmptyListPicture width='300px' height='150px' /> */}
                <h3>Nothing here, add your first task!</h3>
             </StyledEmptyListWrapper>
          )}
