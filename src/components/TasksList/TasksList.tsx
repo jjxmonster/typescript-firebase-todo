@@ -37,10 +37,13 @@ const TasksList: FunctionComponent = () => {
    const user = useAppSelector(state => state.auth.user);
 
    const [tasks, setTasks] = useState<Task[]>();
-   const [activeTask, setActiveTask] = useState<Task>();
+   const [activeTask, setActiveTask] = useState<Task | null>();
 
    const handleDeleteTask = (task: Task, e: MouseEvent) => {
       e.stopPropagation();
+      if (activeTask === task) {
+         setActiveTask(null);
+      }
       if (user !== undefined) {
          deleteTask(task, user);
       } else {
