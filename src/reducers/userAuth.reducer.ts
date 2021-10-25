@@ -9,6 +9,7 @@ export type UserType = {
    password: string;
    id?: string;
    todo?: [];
+   doneTasks?: [];
 };
 const initialState: UserAuthState = {
    isUserLogged: false,

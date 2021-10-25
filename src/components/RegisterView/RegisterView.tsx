@@ -46,6 +46,7 @@ const RegisterView: FunctionComponent<RegisterViewProps> = ({ changeView }) => {
          name,
          password,
          todo: [],
+         doneTasks: [],
       }).then(res => {
          if (res.error) {
             setIsError(true);

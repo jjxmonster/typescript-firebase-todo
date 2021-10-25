@@ -13,7 +13,9 @@ import {
    Checkbox,
    FormControlLabel,
    TextField,
+   Snackbar,
 } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
 
 type Inputs = {
    name: string;
@@ -28,11 +30,20 @@ const AddTaskForm: FunctionComponent = () => {
    const [isMessageShow, setIsMessageShow] = useState(false);
    const [isError, setIsError] = useState(false);
    const [errorMessage, setErrorMessage] = useState('');
+   const [openAlert, setOpenAlert] = React.useState(false);
 
    const { handleSubmit, setValue, register, reset } = useForm<Inputs>();
 
    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       setValue('isImportant', event.target.checked);
+   };
+
+   const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+      if (reason === 'clickaway') {
+         return;
+      }
+
+      setOpenAlert(false);
    };
 
    const onSubmit: SubmitHandler<Inputs> = data => {
@@ -50,13 +61,9 @@ const AddTaskForm: FunctionComponent = () => {
             },
             user
          ).then(res => {
-            setIsMessageShow(true);
             setIsError(res.error);
-            setErrorMessage(res.message);
+            setOpenAlert(true);
             reset({ name: '', contents: '' });
-            setTimeout(() => {
-               setIsMessageShow(false);
-            }, 10000);
          });
    };
 
@@ -131,11 +138,23 @@ const AddTaskForm: FunctionComponent = () => {
             >
                Add task
             </Button>
-            {isMessageShow && (
-               <span style={{ color: isError ? 'red' : 'green' }}>
-                  {errorMessage}
-               </span>
-            )}
+
+            <Snackbar
+               anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+               open={openAlert}
+               autoHideDuration={6000}
+               onClose={handleClose}
+            >
+               {isError ? (
+                  <Alert onClose={handleClose} severity='error'>
+                     Something went wrong...
+                  </Alert>
+               ) : (
+                  <Alert onClose={handleClose} severity='success'>
+                     Task added successfully!
+                  </Alert>
+               )}
+            </Snackbar>
          </form>
       </>
    );

@@ -69,3 +69,9 @@ export const deleteTask = async (taskToDelete: Task, user: UserType) => {
       };
    }
 };
+
+export const addDoneTask = (doneTask: Task, user: UserType) => {
+   if (user.id) {
+      console.log(doneTask, user);
+   }
+};

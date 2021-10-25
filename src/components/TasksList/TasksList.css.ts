@@ -3,6 +3,9 @@ import styled from 'styled-components';
 export interface TaskLevelProps {
    isImportant: boolean;
 }
+export interface CarouselProps {
+   openDoneTasks: boolean;
+}
 
 export const StyledTaskListContainer = styled.div`
    width: 100%;
@@ -12,6 +15,7 @@ export const StyledTaskListContainer = styled.div`
    display: flex;
    flex-direction: column;
    overflow: hidden;
+   position: relative;
    padding: 5%;
 `;
 
@@ -32,6 +36,21 @@ export const StyledTaskWrapper = styled.div`
 `;
 export const StyledList = styled.ul`
    flex: 5;
+   overflow-y: scroll;
+   overflow-x: none;
+
+   &::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+   }
+   &::-webkit-scrollbar-track {
+      background-color: ${({ theme }) => theme.colors.grey.light};
+      border-radius: 10px;
+   }
+   &::-webkit-scrollbar-thumb {
+      background-color: ${({ theme }) => theme.colors.green.normal};
+      border-radius: 10px;
+   }
 `;
 export const StyledEmptyListWrapper = styled.div`
    flex: 5;
@@ -99,4 +118,34 @@ export const StyledTaskLevelSign = styled.div<TaskLevelProps>`
       font-weight: 500;
       font-size: 0.8rem;
    }
+`;
+
+export const StyledCarouselWrapper = styled.div<CarouselProps>`
+   width: 200%;
+   height: 100%;
+   display: flex;
+   transition: 0.5s ease-in-out;
+   ${({ openDoneTasks }) =>
+      openDoneTasks
+         ? `
+      margin-left:-105%;
+   `
+         : `
+      margin-left:0%;
+   `}
+   > div:nth-child(1) {
+      width: 55%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      margin-right: 5%;
+      position: relative;
+      padding-bottom: 40px;
+   }
+`;
+
+export const StyledDoneTasksListWrapper = styled.div`
+   width: 50%;
+   height: 100%;
+   background: red;
 `;
