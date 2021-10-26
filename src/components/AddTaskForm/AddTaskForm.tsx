@@ -40,7 +40,6 @@ const AddTaskForm: FunctionComponent = () => {
       if (reason === 'clickaway') {
          return;
       }
-
       setOpenAlert(false);
    };
 
