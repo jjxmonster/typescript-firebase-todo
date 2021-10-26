@@ -27,9 +27,7 @@ const AddTaskForm: FunctionComponent = () => {
    const user = useAppSelector(state => state.auth.user);
    const dispatch = useAppDispatch();
 
-   const [isMessageShow, setIsMessageShow] = useState(false);
    const [isError, setIsError] = useState(false);
-   const [errorMessage, setErrorMessage] = useState('');
    const [openAlert, setOpenAlert] = React.useState(false);
 
    const { handleSubmit, setValue, register, reset } = useForm<Inputs>();

@@ -1,6 +1,8 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
+import bcrypt from 'bcryptjs';
+
 import {
    StyledFormContainer,
    StyledBottomText,
@@ -44,7 +46,8 @@ const RegisterView: FunctionComponent<RegisterViewProps> = ({ changeView }) => {
 
       addUser({
          name,
-         password,
+
+         password: bcrypt.hashSync(password, 10),
          todo: [],
          doneTasks: [],
       }).then(res => {

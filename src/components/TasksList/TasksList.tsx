@@ -32,7 +32,8 @@ import DoneIcon from '@material-ui/icons/Done';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { ArrowRightAlt } from '@material-ui/icons';
 
-import { Button, ButtonGroup, IconButton } from '@material-ui/core';
+import { Button, ButtonGroup, IconButton, Snackbar } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
 
 import { ReactComponent as EmptyListPicture } from '../../assets/images/empty-list.svg';
 
@@ -42,6 +43,8 @@ const TasksList: FunctionComponent = () => {
    const [tasks, setTasks] = useState<Task[]>();
    const [activeTask, setActiveTask] = useState<Task | null>();
    const [openDoneTasks, setOpenDoneTasks] = useState(false);
+   const [openAlert, setOpenAlert] = React.useState(false);
+   const [isError, setIsError] = useState(false);
 
    const handleDeleteTask = (task: Task, e: MouseEvent) => {
       e.stopPropagation();
@@ -55,10 +58,21 @@ const TasksList: FunctionComponent = () => {
       }
    };
 
+   const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+      if (reason === 'clickaway') {
+         return;
+      }
+
+      setOpenAlert(false);
+   };
+
    const handleAddDoneTask = (task: Task, e: MouseEvent) => {
       e.stopPropagation();
       if (user !== undefined) {
-         addDoneTask(task, user);
+         addDoneTask(task, user).then(res => {
+            setIsError(res.error);
+            setOpenAlert(true);
+         });
       } else {
          return `This scenario will never happend but TS tell it's could be error idk`;
       }
@@ -74,7 +88,7 @@ const TasksList: FunctionComponent = () => {
             setTasks(doc.get('todo'));
          });
       }
-   });
+   }, []);
 
    return (
       <StyledTaskListContainer>
@@ -175,6 +189,22 @@ const TasksList: FunctionComponent = () => {
          >
             Done tasks
          </Button>
+         <Snackbar
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            open={openAlert}
+            autoHideDuration={6000}
+            onClose={handleClose}
+         >
+            {isError ? (
+               <Alert onClose={handleClose} severity='error'>
+                  Something went wrong...
+               </Alert>
+            ) : (
+               <Alert onClose={handleClose} severity='success'>
+                  Congratulations, task added to done list!
+               </Alert>
+            )}
+         </Snackbar>
       </StyledTaskListContainer>
    );
 };

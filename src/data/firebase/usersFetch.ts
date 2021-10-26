@@ -9,6 +9,8 @@ import { db } from '../../firebase/firebase';
 
 import { UserType } from '../../reducers/userAuth.reducer';
 
+import bcrypt from 'bcryptjs';
+
 type UserAuth = {
    name: string;
    password: string;
@@ -41,7 +43,7 @@ export async function addUser(user: UserType) {
    });
 }
 
-export async function authUser(user: UserAuth): Promise<SubmitResponse> {
+export async function authUser(dataToAuth: UserAuth): Promise<SubmitResponse> {
    return await getDocs(collection(db, 'users'))
       .then(async res => {
          if (res.empty) {
@@ -55,13 +57,13 @@ export async function authUser(user: UserAuth): Promise<SubmitResponse> {
             const usersId = res.docs.map(doc => doc.id);
 
             const actualUserIndex = users.findIndex(
-               userFromDB => userFromDB.name === user.name
+               userFromDB => userFromDB.name === dataToAuth.name
             );
 
             if (actualUserIndex !== -1) {
                const userCorrectData = users[actualUserIndex];
                const { name, password, todo } = userCorrectData;
-               if (password === user.password) {
+               if (bcrypt.compareSync(dataToAuth.password, password)) {
                   const userRef = doc(db, 'users', usersId[actualUserIndex]);
                   return await updateDoc(userRef, {
                      name,
