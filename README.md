@@ -11,9 +11,9 @@ soon...
   </p>
 </p>
 
-<img src="./readmeImages/ss1.png" alt="img1" width="1000" height="500">
+<img src="./readmeimages/ss1.png" alt="img1" width="1000" height="500">
 <br>
-<img src="./readmeImages/ss2.png" alt="img2" width="1000" height="500">
+<img src="./readmeimages/ss2.png" alt="img2" width="1000" height="500">
 <br>
 
 ## About The Project
