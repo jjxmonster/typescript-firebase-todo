@@ -26,7 +26,7 @@ export const StyledTopBar = styled.div`
       color: white;
    }
    > p {
-      color: ${({ theme }) => theme.colors.grey.light};
+      color: ${({ theme }) => theme.colors.grey.normal};
       font-size: 2vh;
    }
 `;

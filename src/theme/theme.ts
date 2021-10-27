@@ -1,8 +1,9 @@
 const theme = {
    colors: {
       grey: {
-         normal: '#172434',
-         light: '#939393',
+         dark: '#172434',
+         normal: '#939393',
+         light: '#f0f1f3',
       },
       green: {
          normal: '#7cea9c',

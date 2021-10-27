@@ -46,10 +46,8 @@ const RegisterView: FunctionComponent<RegisterViewProps> = ({ changeView }) => {
 
       addUser({
          name,
-
          password: bcrypt.hashSync(password, 10),
          todo: [],
-         doneTasks: [],
       }).then(res => {
          if (res.error) {
             setIsError(true);

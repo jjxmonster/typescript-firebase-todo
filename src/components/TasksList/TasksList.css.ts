@@ -21,7 +21,7 @@ export const StyledTaskListContainer = styled.div`
 
 export const StyledTaskWrapper = styled.div`
    flex: 3.5;
-   border-bottom: 1px solid grey;
+   /* border-bottom: 1px solid grey; */
    > #top-bar-task {
       display: flex;
       justify-content: space-between;
@@ -36,7 +36,7 @@ export const StyledTaskWrapper = styled.div`
 `;
 export const StyledList = styled.ul`
    flex: 5;
-   overflow-y: scroll;
+   /* overflow-y: scroll; */
    overflow-x: none;
 
    &::-webkit-scrollbar {
@@ -44,7 +44,7 @@ export const StyledList = styled.ul`
       height: 5px;
    }
    &::-webkit-scrollbar-track {
-      background-color: ${({ theme }) => theme.colors.grey.light};
+      background-color: ${({ theme }) => theme.colors.grey.normal};
       border-radius: 10px;
    }
    &::-webkit-scrollbar-thumb {
@@ -61,7 +61,7 @@ export const StyledEmptyListWrapper = styled.div`
    > h3 {
       margin-top: 5px;
       font-weight: 400;
-      color: ${({ theme }) => theme.colors.grey.light};
+      color: ${({ theme }) => theme.colors.grey.normal};
    }
 `;
 
@@ -74,19 +74,23 @@ export const StyledEmptyActiveTaskWrapper = styled.div`
    > h3 {
       font-weight: 400;
       font-size: 1rem;
-      color: ${({ theme }) => theme.colors.grey.light};
+      color: ${({ theme }) => theme.colors.grey.normal};
    }
 `;
 
 export const StyledTaskListElement = styled.li`
-   height: 50px;
+   height: 60px;
    width: 100%;
    display: flex;
    position: relative;
    cursor: pointer;
    justify-content: space-between;
    align-items: center;
+   box-shadow: 0px 0px 24px -11px ${({ theme }) => theme.colors.grey.normal};
    margin-bottom: 5px;
+   background: white;
+   padding: 0 2%;
+   border-radius: 10px;
    &:hover {
       > span {
          opacity: 0.5;
@@ -147,5 +151,8 @@ export const StyledCarouselWrapper = styled.div<CarouselProps>`
 export const StyledDoneTasksListWrapper = styled.div`
    width: 50%;
    height: 100%;
-   background: red;
+   display: flex;
+   align-items: center;
+   justify-content: space-around;
+   flex-direction: column;
 `;

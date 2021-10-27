@@ -28,4 +28,7 @@ export const GlobalStyles = createGlobalStyle`
   #white-input{
     color:white !important;
   }
+  .MuiButtonGroup-groupedTextHorizontal:not(:last-child){
+    border-right: 2px solid #f0f1f3 !important; 
+  }
 `;

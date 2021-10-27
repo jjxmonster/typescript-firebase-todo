@@ -23,9 +23,10 @@ import {
    StyledDoneTasksListWrapper,
 } from './TasksList.css';
 
+import DoneTasks from '../DoneTasks';
+
 // types
 import { Task } from '../../data/firebase/taskFetch';
-import { UserType } from '../../reducers/userAuth.reducer';
 
 // material
 import DoneIcon from '@material-ui/icons/Done';
@@ -41,6 +42,7 @@ const TasksList: FunctionComponent = () => {
    const user = useAppSelector(state => state.auth.user);
 
    const [tasks, setTasks] = useState<Task[]>();
+   const [doneTasks, setDoneTasks] = useState<Task[]>([]);
    const [activeTask, setActiveTask] = useState<Task | null>();
    const [openDoneTasks, setOpenDoneTasks] = useState(false);
    const [openAlert, setOpenAlert] = React.useState(false);
@@ -85,7 +87,8 @@ const TasksList: FunctionComponent = () => {
    useEffect(() => {
       if (user !== undefined && user.id !== undefined) {
          onSnapshot(doc(db, 'users', user.id), doc => {
-            setTasks(doc.get('todo'));
+            setTasks(doc.get('todo').filter((task: Task) => !task.isDone));
+            setDoneTasks(doc.get('todo').filter((task: Task) => task.isDone));
          });
       }
    }, []);
@@ -122,51 +125,57 @@ const TasksList: FunctionComponent = () => {
                </StyledTaskWrapper>
                {tasks?.length ? (
                   <StyledList>
-                     {tasks?.map(task => (
-                        <StyledTaskListElement
-                           key={task.name}
-                           onClick={() => setActiveTask(task)}
-                        >
-                           <ButtonGroup
-                              variant='text'
-                              aria-label='text button group'
+                     {tasks?.map(task => {
+                        return (
+                           <StyledTaskListElement
+                              key={task.name}
+                              onClick={() => setActiveTask(task)}
                            >
-                              <IconButton
-                                 onClick={e => handleAddDoneTask(task, e)}
+                              <ButtonGroup
+                                 variant='text'
+                                 aria-label='text button group'
                               >
-                                 <DoneIcon
-                                    style={{
-                                       color: 'green',
-                                    }}
-                                 />
-                              </IconButton>
-                              <IconButton
-                                 onClick={e => handleDeleteTask(task, e)}
+                                 <IconButton
+                                    onClick={e => handleAddDoneTask(task, e)}
+                                 >
+                                    <DoneIcon
+                                       style={{
+                                          color: 'green',
+                                       }}
+                                    />
+                                 </IconButton>
+                                 <IconButton
+                                    onClick={e => handleDeleteTask(task, e)}
+                                 >
+                                    <DeleteIcon
+                                       style={{
+                                          color: 'red',
+                                       }}
+                                    />
+                                 </IconButton>
+                              </ButtonGroup>
+                              <span>{task.name}</span>
+                              <StyledTaskLevelSign
+                                 isImportant={task.isImportant}
                               >
-                                 <DeleteIcon
-                                    style={{
-                                       color: 'red',
-                                    }}
-                                 />
-                              </IconButton>
-                           </ButtonGroup>
-                           <span>{task.name}</span>
-                           <StyledTaskLevelSign isImportant={task.isImportant}>
-                              <span>
-                                 {task.isImportant ? 'IMPORTANT' : 'NORMAL'}
-                              </span>
-                           </StyledTaskLevelSign>
-                        </StyledTaskListElement>
-                     ))}
+                                 <span>
+                                    {task.isImportant ? 'IMPORTANT' : 'NORMAL'}
+                                 </span>
+                              </StyledTaskLevelSign>
+                           </StyledTaskListElement>
+                        );
+                     })}
                   </StyledList>
                ) : (
                   <StyledEmptyListWrapper>
                      <EmptyListPicture width='300px' height='150px' />
-                     <h3>Nothing here, add your first task!</h3>
+                     <h3>Nothing here, add some task!</h3>
                   </StyledEmptyListWrapper>
                )}
             </div>
-            <StyledDoneTasksListWrapper></StyledDoneTasksListWrapper>
+            <StyledDoneTasksListWrapper>
+               <DoneTasks doneTasks={doneTasks} />
+            </StyledDoneTasksListWrapper>
          </StyledCarouselWrapper>
          <Button
             onClick={handleOpenDoneTasks}
