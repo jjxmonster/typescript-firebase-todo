@@ -154,7 +154,13 @@ const TasksList: FunctionComponent = () => {
                                     />
                                  </IconButton>
                               </ButtonGroup>
-                              <span>{task.name}</span>
+                              <span
+                                 style={{
+                                    fontSize: '1.2rem',
+                                 }}
+                              >
+                                 {task.name}
+                              </span>
                               <StyledTaskLevelSign
                                  isImportant={task.isImportant}
                               >

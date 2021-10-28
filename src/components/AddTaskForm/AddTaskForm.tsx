@@ -25,7 +25,6 @@ type Inputs = {
 
 const AddTaskForm: FunctionComponent = () => {
    const user = useAppSelector(state => state.auth.user);
-   const dispatch = useAppDispatch();
 
    const [isError, setIsError] = useState(false);
    const [openAlert, setOpenAlert] = React.useState(false);

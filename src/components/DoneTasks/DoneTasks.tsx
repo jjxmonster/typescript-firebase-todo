@@ -39,7 +39,7 @@ const DoneTasks: FunctionComponent<DoneTasksProps> = ({ doneTasks }) => {
                              <DeleteIcon
                                 style={{
                                    color: 'white',
-                                   fontSize: '2.5rem',
+                                   fontSize: '2rem',
                                 }}
                              />
                           </Button>
