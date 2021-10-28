@@ -83,6 +83,7 @@ export const StyledTaskListElement = styled.li`
    width: 100%;
    display: flex;
    position: relative;
+   overflow: hidden;
    cursor: pointer;
    justify-content: space-between;
    align-items: center;
@@ -92,11 +93,25 @@ export const StyledTaskListElement = styled.li`
    padding: 0 2%;
    border-radius: 10px;
    &:hover {
-      > span {
+      > span:not(#complete-date) {
          opacity: 0.5;
       }
+      > #delete-task {
+         margin-left: 0px;
+      }
+      > h3 {
+         transform: translateX(50px);
+      }
+   }
+   > #complete-date {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
    }
    > span {
+      transition: 0.3s ease;
+   }
+   > h3 {
       transition: 0.3s ease;
    }
 `;

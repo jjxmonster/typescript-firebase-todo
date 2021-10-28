@@ -20,3 +20,17 @@ export const StyledDoneTasksList = styled.ul`
    width: 100%;
    height: 80%;
 `;
+
+export const StyledDeleteTaskButtonWrapper = styled.div`
+   height: 100%;
+   width: 50px;
+   background: red;
+   position: absolute;
+   left: 0;
+   margin-left: -50px;
+   transition: 0.3s ease;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   overflow: hidden;
+`;

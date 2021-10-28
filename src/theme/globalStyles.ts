@@ -31,4 +31,7 @@ export const GlobalStyles = createGlobalStyle`
   .MuiButtonGroup-groupedTextHorizontal:not(:last-child){
     border-right: 2px solid #f0f1f3 !important; 
   }
+  #form-checkbox span {
+    font-size:1.2rem !important;
+  }
 `;

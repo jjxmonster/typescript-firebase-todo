@@ -37,7 +37,7 @@ export const StyledFormWrapper = styled.div`
    justify-content: center;
    flex-direction: column;
    > h2 {
-      font-size: 4vh;
+      font-size: 5vh;
       color: white;
       margin-bottom: 20px;
    }

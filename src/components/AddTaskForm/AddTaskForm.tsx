@@ -107,21 +107,19 @@ const AddTaskForm: FunctionComponent = () => {
             <FormControlLabel
                style={{
                   fontFamily: `'Urbanist', sans-serif`,
-                  fontWeight: 600,
                   color: 'grey',
-                  fontSize: '18px !important',
                   marginBottom: '20px',
                }}
+               id='form-checkbox'
+               label='important'
                control={
                   <Checkbox
                      style={{
                         color: '#7cea9c',
                      }}
-                     //  checked={checked}
                      onChange={e => handleChange(e)}
                   />
                }
-               label='important'
             />
             <br></br>
             <Button

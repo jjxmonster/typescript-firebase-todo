@@ -3,7 +3,15 @@ import React, { FunctionComponent } from 'react';
 import { Task } from '../../data/firebase/taskFetch';
 import { StyledTaskListElement } from '../TasksList/TasksList.css';
 
-import { StyledTitle, StyledDoneTasksList } from './DoneTasks.css';
+import DoneIcon from '@material-ui/icons/Done';
+import DeleteIcon from '@material-ui/icons/Delete';
+
+import {
+   StyledTitle,
+   StyledDoneTasksList,
+   StyledDeleteTaskButtonWrapper,
+} from './DoneTasks.css';
+import { Button } from '@material-ui/core';
 
 interface DoneTasksProps {
    doneTasks: Task[];
@@ -20,7 +28,32 @@ const DoneTasks: FunctionComponent<DoneTasksProps> = ({ doneTasks }) => {
          <StyledDoneTasksList>
             {doneTasks
                ? doneTasks.map(task => (
-                    <StyledTaskListElement>{task.name}</StyledTaskListElement>
+                    <StyledTaskListElement>
+                       <StyledDeleteTaskButtonWrapper id='delete-task'>
+                          <Button
+                             style={{
+                                width: '100%',
+                                height: '100%',
+                             }}
+                          >
+                             <DeleteIcon
+                                style={{
+                                   color: 'white',
+                                   fontSize: '2.5rem',
+                                }}
+                             />
+                          </Button>
+                       </StyledDeleteTaskButtonWrapper>
+                       <h3>{task.name}</h3>
+                       <span id='complete-date'>
+                          <DoneIcon
+                             style={{
+                                color: 'green',
+                             }}
+                          />
+                          {task.date}
+                       </span>
+                    </StyledTaskListElement>
                  ))
                : null}
          </StyledDoneTasksList>
