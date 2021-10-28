@@ -1,6 +1,8 @@
 import React, { FunctionComponent } from 'react';
 
-import { Task } from '../../data/firebase/taskFetch';
+import { useAppSelector } from '../../store/hooks';
+
+import { deleteTask, Task } from '../../data/firebase/taskFetch';
 import { StyledTaskListElement } from '../TasksList/TasksList.css';
 
 import DoneIcon from '@material-ui/icons/Done';
@@ -18,6 +20,15 @@ interface DoneTasksProps {
 }
 
 const DoneTasks: FunctionComponent<DoneTasksProps> = ({ doneTasks }) => {
+   const user = useAppSelector(state => state.auth.user);
+
+   const handleDeleteTask = (task: Task) => {
+      if (user !== undefined) {
+         deleteTask(task, user);
+      } else {
+         return `This scenario will never happend but TS tell it's could be error idk`;
+      }
+   };
    return (
       <>
          <StyledTitle>
@@ -31,6 +42,7 @@ const DoneTasks: FunctionComponent<DoneTasksProps> = ({ doneTasks }) => {
                     <StyledTaskListElement>
                        <StyledDeleteTaskButtonWrapper id='delete-task'>
                           <Button
+                             onClick={() => handleDeleteTask(task)}
                              style={{
                                 width: '100%',
                                 height: '100%',
