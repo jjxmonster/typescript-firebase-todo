@@ -1,6 +1,0 @@
-// USER LOGIN
-export const USER_LOGGED = 'USER_LOGGED';
-export const USER_LOGOUT = 'USER_LOGOUT';
-
-// UPDATE USER
-export const UPDATE_USER = 'UPDATE_USER';

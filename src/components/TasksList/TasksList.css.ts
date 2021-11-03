@@ -27,11 +27,11 @@ export const StyledTaskWrapper = styled.div`
       justify-content: space-between;
    }
    > div h2 {
-      font-size: 2rem;
+      font-size: 2vw;
       margin-bottom: 10px;
    }
    > p {
-      font-size: 1.1rem;
+      font-size: 1.1vw;
    }
 `;
 export const StyledList = styled.ul`

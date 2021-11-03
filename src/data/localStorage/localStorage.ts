@@ -1,4 +1,4 @@
-const STORAGE_KEY = `USER`;
+export const STORAGE_KEY = `USER`;
 
 export function saveState<T = object>(storeState: T): boolean {
    if (!localStorage) {

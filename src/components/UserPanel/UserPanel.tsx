@@ -1,6 +1,8 @@
 import React, { FunctionComponent } from 'react';
 
+import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../store/hooks';
+import { logout } from '../../reducers/userAuth.reducer';
 
 //components
 import AddTaskForm from '../AddTaskForm';
@@ -14,13 +16,38 @@ import {
    StyledFormWrapper,
 } from './UserPanel.css';
 
+import { STORAGE_KEY } from '../../data/localStorage/localStorage';
+
+// material
+import LogoutIcon from '@mui/icons-material/Logout';
+import { IconButton } from '@material-ui/core';
+
 const UserPanelContainer: FunctionComponent = () => {
    const user = useAppSelector(state => state.auth.user);
+   const dispatch = useDispatch();
+
+   const handleLogout = () => {
+      localStorage.removeItem(STORAGE_KEY);
+      dispatch(logout());
+   };
 
    return (
       <StyledPanelContainer>
          <StyledLeftBox>
             <StyledTopBar>
+               <IconButton
+                  onClick={handleLogout}
+                  style={{
+                     width: '2.5vw',
+                  }}
+               >
+                  <LogoutIcon
+                     style={{
+                        fontSize: '2.5vw',
+                        color: 'white',
+                     }}
+                  />
+               </IconButton>
                <h1>Hello, {user?.name}</h1>
                <p>Welcome back to your Todo List, we missed u!</p>
             </StyledTopBar>
