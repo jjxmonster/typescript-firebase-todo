@@ -70,6 +70,9 @@ const TasksList: FunctionComponent = () => {
 
    const handleAddDoneTask = (task: Task, e: MouseEvent) => {
       e.stopPropagation();
+      if (activeTask === task) {
+         setActiveTask(null);
+      }
       if (user !== undefined) {
          addDoneTask(task, user).then(res => {
             setIsError(res.error);
@@ -202,7 +205,7 @@ const TasksList: FunctionComponent = () => {
                bottom: '5%',
             }}
          >
-            Done tasks
+            {openDoneTasks ? 'ACTIVE TASKS' : 'DONE TASKS'}
          </Button>
          <Snackbar
             anchorOrigin={{ vertical: 'top', horizontal: 'right' }}

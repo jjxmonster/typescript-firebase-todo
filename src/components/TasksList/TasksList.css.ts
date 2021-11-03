@@ -36,7 +36,7 @@ export const StyledTaskWrapper = styled.div`
 `;
 export const StyledList = styled.ul`
    flex: 5;
-   /* overflow-y: scroll; */
+   overflow-y: scroll;
    overflow-x: none;
 
    &::-webkit-scrollbar {

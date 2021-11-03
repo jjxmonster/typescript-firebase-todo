@@ -45,7 +45,8 @@ const AddTaskForm: FunctionComponent = () => {
    const onSubmit: SubmitHandler<Inputs> = data => {
       const { name, contents, isImportant } = data;
       const taskId = crypto.randomBytes(10).toString('hex');
-      if (user)
+
+      if (user && name)
          addTask(
             {
                id: taskId,
@@ -71,7 +72,7 @@ const AddTaskForm: FunctionComponent = () => {
                style={{
                   marginBottom: '20px',
                }}
-               {...(register('name'), { required: true })}
+               {...register('name', { required: true, max: 10 })}
                onChange={e => setValue('name', e.target.value)}
                fullWidth
                id='white-input'

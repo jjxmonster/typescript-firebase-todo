@@ -32,6 +32,6 @@ export const GlobalStyles = createGlobalStyle`
     border-right: 2px solid #f0f1f3 !important; 
   }
   #form-checkbox span {
-    font-size:1.2rem !important;
+    font-size:1rem !important;
   }
 `;
