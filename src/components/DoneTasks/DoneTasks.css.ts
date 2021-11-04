@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
-export const StyledTitle = styled.h2`
+interface TaskTitleProps {
+   smallBorder?: boolean;
+}
+
+export const StyledTitle = styled.h2<TaskTitleProps>`
    color: ${({ theme }) => theme.colors.grey.normal};
    font-weight: 400;
    position: relative;
@@ -12,7 +16,7 @@ export const StyledTitle = styled.h2`
       margin: auto;
       content: '';
       border: 1px solid ${({ theme }) => theme.colors.green.normal};
-      width: 50%;
+      ${({ smallBorder }) => (smallBorder ? ` width: 10%;` : ` width: 50%;`)}
    }
 `;
 

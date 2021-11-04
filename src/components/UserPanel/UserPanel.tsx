@@ -38,12 +38,12 @@ const UserPanelContainer: FunctionComponent = () => {
                <IconButton
                   onClick={handleLogout}
                   style={{
-                     width: '2.5vw',
+                     width: '5vh',
                   }}
                >
                   <LogoutIcon
                      style={{
-                        fontSize: '2.5vw',
+                        fontSize: '5vh',
                         color: 'white',
                      }}
                   />

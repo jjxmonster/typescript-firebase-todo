@@ -20,11 +20,30 @@ export const StyledTaskListContainer = styled.div`
 `;
 
 export const StyledTaskWrapper = styled.div`
-   flex: 3.5;
+   width: 700px;
+   min-height: 400px;
+   padding: 20px;
+   border-radius: 20px;
+   background: white;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
    /* border-bottom: 1px solid grey; */
    > #top-bar-task {
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
+      > p {
+         font-size: 1.3rem;
+      }
+      > div {
+         display: flex;
+         justify-content: space-between;
+      }
+   }
+   > #bottom-bar-task {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
    }
    > div h2 {
       font-size: 2vw;

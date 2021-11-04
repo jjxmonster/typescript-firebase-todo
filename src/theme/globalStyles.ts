@@ -34,4 +34,5 @@ export const GlobalStyles = createGlobalStyle`
   #form-checkbox span {
     font-size:1rem !important;
   }
+ 
 `;
