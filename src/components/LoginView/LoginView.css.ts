@@ -24,6 +24,10 @@ export const StyledFormContainer = styled.div`
       align-items: center;
       justify-content: center;
    }
+   @media (max-width: 1150px) {
+      min-width: 90vw;
+      height: 70vh;
+   }
 `;
 export const StyledBottomText = styled.p`
    color: black;

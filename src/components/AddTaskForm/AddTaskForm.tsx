@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { useAppSelector } from '../../store/hooks';
 
 import { addTask } from '../../data/firebase/taskFetch';
 

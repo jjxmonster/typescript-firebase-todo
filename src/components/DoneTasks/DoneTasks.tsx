@@ -3,7 +3,7 @@ import React, { FunctionComponent } from 'react';
 import { useAppSelector } from '../../store/hooks';
 
 import { deleteTask, Task } from '../../data/firebase/taskFetch';
-import { StyledTaskListElement } from '../TasksList/TasksList.css';
+import { StyledTaskListElement } from '../TaskPreview/TaskPreview.css';
 
 import DoneIcon from '@material-ui/icons/Done';
 import DeleteIcon from '@material-ui/icons/Delete';

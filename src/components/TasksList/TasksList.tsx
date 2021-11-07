@@ -14,17 +14,8 @@ import { useAppSelector } from '../../store/hooks';
 import {
    StyledTaskListContainer,
    StyledTaskWrapper,
-   StyledList,
-   StyledTaskListElement,
-   StyledEmptyListWrapper,
    StyledEmptyActiveTaskWrapper,
-   StyledTaskLevelSign,
-   StyledCarouselWrapper,
-   StyledDoneTasksListWrapper,
 } from './TasksList.css';
-import { StyledTitle } from '../DoneTasks/DoneTasks.css';
-
-import DoneTasks from '../DoneTasks';
 
 // types
 import { Task } from '../../data/firebase/taskFetch';
@@ -43,15 +34,24 @@ import {
    makeStyles,
    Snackbar,
 } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/AddCircle';
 import Alert from '@material-ui/lab/Alert';
 
-import { ReactComponent as EmptyListPicture } from '../../assets/images/empty-list.svg';
+import { StyledTaskLevelSign } from '../TaskPreview/TaskPreview.css';
+
+import TaskPreview from '../TaskPreview';
 
 const useStyles = makeStyles(() => ({
    paper: { maxWidth: '100vw' },
 }));
 
-const TasksList: FunctionComponent = () => {
+interface TaskListProps {
+   handleOpenFormModal: () => void;
+}
+
+const TasksList: FunctionComponent<TaskListProps> = ({
+   handleOpenFormModal,
+}) => {
    const user = useAppSelector(state => state.auth.user);
 
    const classes = useStyles();
@@ -116,55 +116,12 @@ const TasksList: FunctionComponent = () => {
 
    return (
       <StyledTaskListContainer>
-         <StyledCarouselWrapper openDoneTasks={openDoneTasks}>
-            <div>
-               <StyledTitle
-                  smallBorder
-                  style={{
-                     marginBottom: 10,
-                     fontSize: '2rem',
-                     textAlign: 'center',
-                  }}
-               >
-                  Your tasks
-               </StyledTitle>
-               {tasks?.length ? (
-                  <StyledList>
-                     {tasks?.map(task => {
-                        return (
-                           <StyledTaskListElement
-                              key={task.name}
-                              onClick={() => handleTaskClick(task)}
-                           >
-                              <span
-                                 style={{
-                                    fontSize: '1.2rem',
-                                 }}
-                              >
-                                 {task.name}
-                              </span>
-                              <StyledTaskLevelSign
-                                 isImportant={task.isImportant}
-                              >
-                                 <span>
-                                    {task.isImportant ? 'IMPORTANT' : 'NORMAL'}
-                                 </span>
-                              </StyledTaskLevelSign>
-                           </StyledTaskListElement>
-                        );
-                     })}
-                  </StyledList>
-               ) : (
-                  <StyledEmptyListWrapper>
-                     <EmptyListPicture width='300px' height='150px' />
-                     <h3>Nothing here, add some task!</h3>
-                  </StyledEmptyListWrapper>
-               )}
-            </div>
-            <StyledDoneTasksListWrapper>
-               <DoneTasks doneTasks={doneTasks} />
-            </StyledDoneTasksListWrapper>
-         </StyledCarouselWrapper>
+         <TaskPreview
+            tasks={tasks}
+            doneTasks={doneTasks}
+            openDoneTasks={openDoneTasks}
+            handleTaskClick={handleTaskClick}
+         />
          <Button
             onClick={handleOpenDoneTasks}
             variant='contained'
@@ -186,6 +143,13 @@ const TasksList: FunctionComponent = () => {
          >
             {openDoneTasks ? 'ACTIVE TASKS' : 'DONE TASKS'}
          </Button>
+         <IconButton className='mobile-add-icon' onClick={handleOpenFormModal}>
+            <AddIcon
+               style={{
+                  fontSize: '3rem',
+               }}
+            />
+         </IconButton>
          <Snackbar
             anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
             open={openAlert}

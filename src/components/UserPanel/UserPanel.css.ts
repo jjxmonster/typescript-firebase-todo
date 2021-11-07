@@ -48,8 +48,22 @@ export const StyledFormWrapper = styled.div`
       margin-bottom: 20px;
    }
    @media (max-width: 1150px) {
-      position: absolute;
-      height: auto;
       display: none;
+   }
+`;
+
+export const StyledMobileFormModalContainer = styled.div`
+   width: 80vw;
+   height: 60vh;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   padding: 0 5%;
+   border-radius: 20px;
+   background: ${({ theme }) => theme.colors.grey.dark};
+   > h2 {
+      color: white;
+      font-size: 3rem;
    }
 `;

@@ -34,5 +34,10 @@ export const GlobalStyles = createGlobalStyle`
   #form-checkbox span {
     font-size:1rem !important;
   }
- 
+   .form-modal {
+      display: none !important;
+      @media (max-width: 1150px) {
+         display: block !important;
+      }
+   }
 `;

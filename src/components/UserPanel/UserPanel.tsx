@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../store/hooks';
@@ -13,6 +13,7 @@ import {
    StyledLeftBox,
    StyledRightBox,
    StyledTopBar,
+   StyledMobileFormModalContainer,
    StyledFormWrapper,
 } from './UserPanel.css';
 
@@ -20,15 +21,27 @@ import { STORAGE_KEY } from '../../data/localStorage/localStorage';
 
 // material
 import LogoutIcon from '@mui/icons-material/Logout';
-import { IconButton } from '@material-ui/core';
+import { Dialog, IconButton, makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles(() => ({
+   paper: { maxWidth: '100vw', background: 'transparent' },
+}));
 
 const UserPanelContainer: FunctionComponent = () => {
+   const classes = useStyles();
+
    const user = useAppSelector(state => state.auth.user);
    const dispatch = useDispatch();
+
+   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
 
    const handleLogout = () => {
       localStorage.removeItem(STORAGE_KEY);
       dispatch(logout());
+   };
+
+   const handleOpenFormModal = () => {
+      setIsFormModalOpen(true);
    };
 
    return (
@@ -54,9 +67,22 @@ const UserPanelContainer: FunctionComponent = () => {
             <StyledFormWrapper>
                <AddTaskForm />
             </StyledFormWrapper>
+
+            <Dialog
+               classes={{ paper: classes.paper }}
+               className='form-modal'
+               aria-describedby='alert-dialog-slide-description'
+               keepMounted
+               open={isFormModalOpen}
+               onClose={() => setIsFormModalOpen(false)}
+            >
+               <StyledMobileFormModalContainer>
+                  <AddTaskForm />
+               </StyledMobileFormModalContainer>
+            </Dialog>
          </StyledLeftBox>
          <StyledRightBox>
-            <TasksList />
+            <TasksList handleOpenFormModal={handleOpenFormModal} />
          </StyledRightBox>
       </StyledPanelContainer>
    );
