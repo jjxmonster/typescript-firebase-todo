@@ -24,7 +24,7 @@ const DoneTasks: FunctionComponent<DoneTasksProps> = ({ doneTasks }) => {
 
    const handleDeleteTask = (task: Task) => {
       if (user !== undefined) {
-         deleteTask(task, user);
+         // deleteTask(task, user);
       } else {
          return `This scenario will never happend but TS tell it's could be error idk`;
       }

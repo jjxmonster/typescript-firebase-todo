@@ -1,7 +1,9 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
-import bcrypt from 'bcryptjs';
+import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+
+import { firebaseApp } from '../../firebase/firebase';
 
 import {
    StyledFormContainer,
@@ -13,17 +15,18 @@ import IconButton from '@material-ui/core/IconButton';
 
 // material icons
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { addUser } from '../../data/firebase/usersFetch';
 
 interface RegisterViewProps {
    changeView: Function;
 }
 
 type Inputs = {
-   name: string;
+   email: string;
    password: string;
    repeatPassword: string;
 };
+
+const auth = getAuth(firebaseApp);
 
 const RegisterView: FunctionComponent<RegisterViewProps> = ({ changeView }) => {
    const {
@@ -31,36 +34,28 @@ const RegisterView: FunctionComponent<RegisterViewProps> = ({ changeView }) => {
       handleSubmit,
       watch,
       setValue,
-
       formState: { errors },
    } = useForm<Inputs>();
 
-   const [isError, setIsError] = useState(false);
-   const [errorMessage, setErrorMessage] = useState('');
+   const [error, setErrorMessage] = useState(null);
 
    const password = useRef('');
    password.current = watch('password', '');
 
    const onSubmit: SubmitHandler<Inputs> = data => {
-      const { name, password } = data;
-
-      addUser({
-         name,
-         password: bcrypt.hashSync(password, 10),
-         todo: [],
-      }).then(res => {
-         if (res.error) {
-            setIsError(true);
-            setErrorMessage(res.message);
-         } else {
+      const { email, password } = data;
+      createUserWithEmailAndPassword(auth, email, password)
+         .then(user => {
             changeView();
-         }
-      });
+         })
+         .catch(e => {
+            setErrorMessage(e.toString());
+         });
    };
 
    useEffect(() => {
       // FORM VALIDATION
-      register('name', {
+      register('email', {
          validate: value => value?.length >= 3 && value.length < 20,
       });
       register('password', {
@@ -79,10 +74,10 @@ const RegisterView: FunctionComponent<RegisterViewProps> = ({ changeView }) => {
                style={{
                   marginBottom: '10px',
                }}
-               error={Boolean(errors?.name)}
+               error={Boolean(errors?.email)}
                fullWidth
                id='standard-basic'
-               onChange={e => setValue('name', e.target.value)}
+               onChange={e => setValue('email', e.target.value)}
                InputLabelProps={{
                   style: {
                      fontFamily: ` 'Urbanist', sans-serif`,
@@ -90,9 +85,9 @@ const RegisterView: FunctionComponent<RegisterViewProps> = ({ changeView }) => {
                      fontSize: '18px',
                   },
                }}
-               label='Username'
+               label='Email'
             />
-            {errors.name && (
+            {errors.email && (
                <span>Username must be 3 to 10 characters long.</span>
             )}
             <br></br>
@@ -147,7 +142,7 @@ const RegisterView: FunctionComponent<RegisterViewProps> = ({ changeView }) => {
                   }}
                />
             </IconButton>
-            {isError && <span style={{ color: 'red' }}>{errorMessage}</span>}
+            {error && <span style={{ color: 'red' }}>{error}</span>}
          </form>
          <StyledBottomText>
             Already have an account?{' '}

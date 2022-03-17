@@ -3,7 +3,9 @@ import { useAppDispatch } from '../../store/hooks';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
 
-import { authUser } from '../../data/firebase/usersFetch';
+import { Auth, getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { firebaseApp } from '../../firebase/firebase';
+import { login } from '../../reducers/userAuth.reducer';
 
 import { StyledFormContainer, StyledBottomText } from './LoginView.css';
 // material ui
@@ -11,34 +13,31 @@ import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
 // material icons
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { login } from '../../reducers/userAuth.reducer';
 
 interface LoginViewProps {
    changeView: Function;
 }
 
 type Inputs = {
-   name: string;
+   email: string;
    password: string;
 };
+
+const auth = getAuth(firebaseApp);
 
 const LoginView: FunctionComponent<LoginViewProps> = ({ changeView }) => {
    const { handleSubmit, setValue, register } = useForm<Inputs>();
    const dispatch = useAppDispatch();
 
-   const [isError, setIsError] = useState(false);
-   const [errorMessage, setErrorMessage] = useState('');
+   const [error, setError] = useState(null);
 
-   const onSubmit: SubmitHandler<Inputs> = data => {
-      authUser(data).then(res => {
-         if (!res.error) {
-            setIsError(res.error);
-            if (res.user) dispatch(login(res.user));
-         } else {
-            setIsError(res.error);
-            setErrorMessage(res.message);
-         }
-      });
+   const onSubmit: SubmitHandler<Inputs> = async data => {
+      const { email, password } = data;
+      try {
+         await signInWithEmailAndPassword(auth, email, password);
+      } catch (error: any) {
+         setError(error.toString());
+      }
    };
 
    return (
@@ -49,8 +48,8 @@ const LoginView: FunctionComponent<LoginViewProps> = ({ changeView }) => {
                style={{
                   marginBottom: '10px',
                }}
-               {...(register('name'), { required: true })}
-               onChange={e => setValue('name', e.target.value)}
+               {...(register('email'), { required: true })}
+               onChange={e => setValue('email', e.target.value)}
                fullWidth
                id='standard-basic'
                InputLabelProps={{
@@ -60,7 +59,7 @@ const LoginView: FunctionComponent<LoginViewProps> = ({ changeView }) => {
                      fontSize: '18px',
                   },
                }}
-               label='Username'
+               label='Email'
             />
 
             <TextField
@@ -83,7 +82,7 @@ const LoginView: FunctionComponent<LoginViewProps> = ({ changeView }) => {
                }}
                label='Password'
             />
-            {isError && <span style={{ color: 'red' }}>{errorMessage}</span>}
+            {error && <span style={{ color: 'red' }}>{error}</span>}
             <IconButton aria-label='login' type='submit'>
                <ExitToAppIcon
                   style={{

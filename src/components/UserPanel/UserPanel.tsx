@@ -17,15 +17,19 @@ import {
    StyledFormWrapper,
 } from './UserPanel.css';
 
-import { STORAGE_KEY } from '../../data/localStorage/localStorage';
+import { getAuth } from 'firebase/auth';
+import { firebaseApp } from '../../firebase/firebase';
 
 // material
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Dialog, IconButton, makeStyles } from '@material-ui/core';
+import { signOut } from 'firebase/auth';
 
 const useStyles = makeStyles(() => ({
    paper: { maxWidth: '100vw', background: 'transparent' },
 }));
+
+const auth = getAuth(firebaseApp);
 
 const UserPanelContainer: FunctionComponent = () => {
    const classes = useStyles();
@@ -36,8 +40,8 @@ const UserPanelContainer: FunctionComponent = () => {
    const [isFormModalOpen, setIsFormModalOpen] = useState(false);
 
    const handleLogout = () => {
-      localStorage.removeItem(STORAGE_KEY);
       dispatch(logout());
+      signOut(auth);
    };
 
    const handleOpenFormModal = () => {
@@ -61,13 +65,12 @@ const UserPanelContainer: FunctionComponent = () => {
                      }}
                   />
                </IconButton>
-               <h1>Hello, {user?.name}</h1>
+               <h1>Hello!</h1>
                <p>Welcome back to your Todo List, we missed u!</p>
             </StyledTopBar>
             <StyledFormWrapper>
                <AddTaskForm />
             </StyledFormWrapper>
-
             <Dialog
                classes={{ paper: classes.paper }}
                className='form-modal'

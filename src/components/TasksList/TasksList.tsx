@@ -79,7 +79,7 @@ const TasksList: FunctionComponent<TaskListProps> = ({
          setActiveTask(null);
       }
       if (user !== undefined) {
-         deleteTask(task, user);
+         // deleteTask(task, user);
       } else {
          return `This scenario will never happend but TS tell it's could be error idk`;
       }
@@ -88,10 +88,10 @@ const TasksList: FunctionComponent<TaskListProps> = ({
       e.stopPropagation();
       setIsTaskModalOpen(false);
       if (user !== undefined) {
-         addDoneTask(task, user).then(res => {
-            setIsError(res.error);
-            setOpenAlert(true);
-         });
+         // addDoneTask(task, user).then(res => {
+         //    setIsError(res.error);
+         //    setOpenAlert(true);
+         // });
       } else {
          return `This scenario will never happend but TS tell it's could be error idk`;
       }
@@ -105,14 +105,14 @@ const TasksList: FunctionComponent<TaskListProps> = ({
       setIsTaskModalOpen(true);
    };
 
-   useEffect(() => {
-      if (user !== undefined && user.id !== undefined) {
-         onSnapshot(doc(db, 'users', user.id), doc => {
-            setTasks(doc.get('todo')?.filter((task: Task) => !task.isDone));
-            setDoneTasks(doc.get('todo')?.filter((task: Task) => task.isDone));
-         });
-      }
-   }, []);
+   // useEffect(() => {
+   //    if (user !== undefined && user.id !== undefined) {
+   //       onSnapshot(doc(db, 'users', user.id), doc => {
+   //          setTasks(doc.get('todo')?.filter((task: Task) => !task.isDone));
+   //          setDoneTasks(doc.get('todo')?.filter((task: Task) => task.isDone));
+   //       });
+   //    }
+   // }, []);
 
    return (
       <StyledTaskListContainer>
