@@ -1,6 +1,6 @@
 ## CHECK IT ONLINE!
+https://todo-ts-firebase.netlify.app/
 
-soon...
 
 <p align="center">
   <h3 align="center">TypeScript Todo</h3>
