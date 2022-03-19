@@ -75,7 +75,7 @@ const TaskPreview: FunctionComponent<TaskPreviewProps> = ({
             )}
          </div>
          <StyledDoneTasksListWrapper>
-            <DoneTasks doneTasks={doneTasks} />
+            {/* <DoneTasks doneTasks={doneTasks} /> */}
          </StyledDoneTasksListWrapper>
       </StyledCarouselWrapper>
    );

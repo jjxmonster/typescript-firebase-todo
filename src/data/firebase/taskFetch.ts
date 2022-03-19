@@ -1,5 +1,12 @@
 import { db } from '../../firebase/firebase';
-import { arrayUnion, doc, getDoc, updateDoc } from '@firebase/firestore';
+import {
+   arrayUnion,
+   getDocs,
+   updateDoc,
+   query,
+   collection,
+   where,
+} from '@firebase/firestore';
 
 import { UserType } from '../../reducers/userAuth.reducer';
 
@@ -14,29 +21,24 @@ export type Task = {
 };
 
 export const addTask = async (task: Task, user: UserType) => {
-   // if (user.id) {
-   //    return await getDoc(doc(db, 'users', user.id))
-   //       .then(async res => {
-   //          return await updateDoc(res.ref, {
-   //             todo: arrayUnion(task),
-   //          }).then(res => ({
-   //             error: false,
-   //             message: 'Task added successfully.',
-   //          }));
-   //       })
-   //       .catch(err => {
-   //          console.log(err);
-   //          return {
-   //             error: true,
-   //             message: 'Something went wrong...',
-   //          };
-   //       });
-   // } else {
-   return {
-      error: true,
-      message: `This scenario will never happend but TS tell it's could be error idk`,
-   };
-   // }
+   const q = query(collection(db, 'users'), where('uid', '==', user.uid));
+
+   return await getDocs(q)
+      .then(async ({ docs }) => {
+         return await updateDoc(docs[0].ref, {
+            todo: arrayUnion(task),
+         }).then(res => ({
+            error: false,
+            message: 'Task added successfully.',
+         }));
+      })
+      .catch(err => {
+         console.log(err);
+         return {
+            error: true,
+            message: 'Something went wrong...',
+         };
+      });
 };
 
 export const deleteTask = async (taskToDelete: Task, user: UserType) => {

@@ -5,9 +5,16 @@ import React, {
    useState,
 } from 'react';
 
-import { doc, onSnapshot } from '@firebase/firestore';
 import { db } from '../../firebase/firebase';
-import { addDoneTask, deleteTask } from '../../data/firebase/taskFetch';
+import {
+   arrayUnion,
+   onSnapshot,
+   getDocs,
+   updateDoc,
+   query,
+   collection,
+   where,
+} from '@firebase/firestore';
 
 import { useAppSelector } from '../../store/hooks';
 
@@ -105,14 +112,16 @@ const TasksList: FunctionComponent<TaskListProps> = ({
       setIsTaskModalOpen(true);
    };
 
-   // useEffect(() => {
-   //    if (user !== undefined && user.id !== undefined) {
-   //       onSnapshot(doc(db, 'users', user.id), doc => {
-   //          setTasks(doc.get('todo')?.filter((task: Task) => !task.isDone));
-   //          setDoneTasks(doc.get('todo')?.filter((task: Task) => task.isDone));
-   //       });
-   //    }
-   // }, []);
+   useEffect(() => {
+      const q = query(collection(db, 'users'), where('uid', '==', user?.uid));
+
+      getDocs(q).then(({ docs }) => {
+         onSnapshot(docs[0].ref, doc => {
+            setTasks(doc.get('todo')?.filter((task: Task) => !task.isDone));
+            setDoneTasks(doc.get('todo')?.filter((task: Task) => task.isDone));
+         });
+      });
+   }, []);
 
    return (
       <StyledTaskListContainer>

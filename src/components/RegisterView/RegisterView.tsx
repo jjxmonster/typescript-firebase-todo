@@ -2,8 +2,9 @@ import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
-
 import { firebaseApp } from '../../firebase/firebase';
+import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
+import { db } from '../../firebase/firebase';
 
 import {
    StyledFormContainer,
@@ -42,14 +43,25 @@ const RegisterView: FunctionComponent<RegisterViewProps> = ({ changeView }) => {
    const password = useRef('');
    password.current = watch('password', '');
 
-   const onSubmit: SubmitHandler<Inputs> = data => {
+   const onSubmit: SubmitHandler<Inputs> = async data => {
       const { email, password } = data;
-      createUserWithEmailAndPassword(auth, email, password)
-         .then(user => {
-            changeView();
+
+      await createUserWithEmailAndPassword(auth, email, password)
+         .then(async res => {
+            const { user } = res;
+            return await addDoc(collection(db, 'users'), {
+               uid: user.uid,
+               todo: [],
+            })
+               .then(res => {
+                  console.log('ok');
+               })
+               .catch(err => {
+                  setErrorMessage(err.toString());
+               });
          })
-         .catch(e => {
-            setErrorMessage(e.toString());
+         .catch(err => {
+            setErrorMessage(err.toString());
          });
    };
 
