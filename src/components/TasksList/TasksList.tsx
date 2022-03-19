@@ -7,10 +7,8 @@ import React, {
 
 import { db } from '../../firebase/firebase';
 import {
-   arrayUnion,
    onSnapshot,
    getDocs,
-   updateDoc,
    query,
    collection,
    where,
@@ -25,7 +23,7 @@ import {
 } from './TasksList.css';
 
 // types
-import { Task } from '../../data/firebase/taskFetch';
+import { deleteTask, Task } from '../../data/firebase/taskFetch';
 
 // material
 import DoneIcon from '@material-ui/icons/Done';
@@ -85,11 +83,8 @@ const TasksList: FunctionComponent<TaskListProps> = ({
       if (activeTask === task) {
          setActiveTask(null);
       }
-      if (user !== undefined) {
-         // deleteTask(task, user);
-      } else {
-         return `This scenario will never happend but TS tell it's could be error idk`;
-      }
+
+      user && deleteTask(task, user);
    };
    const handleAddDoneTask = (task: Task, e: MouseEvent) => {
       e.stopPropagation();
@@ -113,14 +108,21 @@ const TasksList: FunctionComponent<TaskListProps> = ({
    };
 
    useEffect(() => {
-      const q = query(collection(db, 'users'), where('uid', '==', user?.uid));
+      if (user) {
+         const q = query(
+            collection(db, 'users'),
+            where('uid', '==', user?.uid)
+         );
 
-      getDocs(q).then(({ docs }) => {
-         onSnapshot(docs[0].ref, doc => {
-            setTasks(doc.get('todo')?.filter((task: Task) => !task.isDone));
-            setDoneTasks(doc.get('todo')?.filter((task: Task) => task.isDone));
+         getDocs(q).then(({ docs }) => {
+            onSnapshot(docs[0].ref, doc => {
+               setTasks(doc.get('todo')?.filter((task: Task) => !task.isDone));
+               setDoneTasks(
+                  doc.get('todo')?.filter((task: Task) => task.isDone)
+               );
+            });
          });
-      });
+      }
    }, []);
 
    return (

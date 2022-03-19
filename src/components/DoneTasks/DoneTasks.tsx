@@ -23,11 +23,7 @@ const DoneTasks: FunctionComponent<DoneTasksProps> = ({ doneTasks }) => {
    const user = useAppSelector(state => state.auth.user);
 
    const handleDeleteTask = (task: Task) => {
-      if (user !== undefined) {
-         // deleteTask(task, user);
-      } else {
-         return `This scenario will never happend but TS tell it's could be error idk`;
-      }
+      user && deleteTask(task, user);
    };
    return (
       <>
