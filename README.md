@@ -36,6 +36,7 @@ npm start
 -  React
 -  TypeScript
 -  Firebase
+-  Firebase Authentication
 -  Cloud Firestore
 -  Redux
 -  Styled-Components
