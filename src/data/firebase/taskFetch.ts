@@ -65,41 +65,34 @@ export const deleteTask = async (taskToDelete: Task, user: UserType) => {
 };
 
 export const addDoneTask = async (doneTask: Task, user: UserType) => {
-   // if (user.id) {
-   //    return await getDoc(doc(db, 'users', user.id))
-   //       .then(async res => {
-   //          const getTask = res
-   //             .data()
-   //             ?.todo.filter((task: Task) => task.id === doneTask.id)[0];
-   //          // make task completed...
-   //          getTask.isDone = true;
-   //          getTask.date = new Date().toLocaleString();
+   const q = query(collection(db, 'users'), where('uid', '==', user.uid));
 
-   //          return await updateDoc(res.ref, {
-   //             todo: [
-   //                ...res
-   //                   .data()
-   //                   ?.todo.filter((task: Task) => task.id !== doneTask.id),
-   //                getTask,
-   //             ],
-   //          }).then(res => {
-   //             return {
-   //                error: false,
-   //                message: 'Task done successfully.',
-   //             };
-   //          });
-   //       })
-   //       .catch(err => {
-   //          console.log(err);
-   //          return {
-   //             error: true,
-   //             message: 'Something went wrong...',
-   //          };
-   //       });
-   // } else {
-   return {
-      error: true,
-      message: `This scenario will never happend but TS tell it's could be error idk`,
-   };
-   // }
+   return await getDocs(q)
+      .then(async ({ docs }) => {
+         const getTask = docs[0]
+            .data()
+            ?.todo.filter((task: Task) => task.id === doneTask.id)[0];
+         getTask.isDone = true;
+         getTask.date = new Date().toLocaleString();
+         return await updateDoc(docs[0].ref, {
+            todo: [
+               ...docs[0]
+                  .data()
+                  ?.todo.filter((task: Task) => task.id !== doneTask.id),
+               getTask,
+            ],
+         }).then(res => {
+            return {
+               error: false,
+               message: 'Task done successfully.',
+            };
+         });
+      })
+      .catch(err => {
+         console.log(err);
+         return {
+            error: true,
+            message: 'Something went wrong...',
+         };
+      });
 };

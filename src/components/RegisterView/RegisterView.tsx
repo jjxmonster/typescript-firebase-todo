@@ -52,6 +52,7 @@ const RegisterView: FunctionComponent<RegisterViewProps> = ({ changeView }) => {
             return await addDoc(collection(db, 'users'), {
                uid: user.uid,
                todo: [],
+               doneTasks: [],
             })
                .then(res => {
                   console.log('ok');

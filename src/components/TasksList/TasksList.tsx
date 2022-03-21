@@ -23,7 +23,7 @@ import {
 } from './TasksList.css';
 
 // types
-import { deleteTask, Task } from '../../data/firebase/taskFetch';
+import { addDoneTask, deleteTask, Task } from '../../data/firebase/taskFetch';
 
 // material
 import DoneIcon from '@material-ui/icons/Done';
@@ -89,14 +89,7 @@ const TasksList: FunctionComponent<TaskListProps> = ({
    const handleAddDoneTask = (task: Task, e: MouseEvent) => {
       e.stopPropagation();
       setIsTaskModalOpen(false);
-      if (user !== undefined) {
-         // addDoneTask(task, user).then(res => {
-         //    setIsError(res.error);
-         //    setOpenAlert(true);
-         // });
-      } else {
-         return `This scenario will never happend but TS tell it's could be error idk`;
-      }
+      user && addDoneTask(task, user);
    };
 
    const handleOpenDoneTasks = () => {

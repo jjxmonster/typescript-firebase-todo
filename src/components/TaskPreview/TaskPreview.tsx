@@ -48,7 +48,7 @@ const TaskPreview: FunctionComponent<TaskPreviewProps> = ({
                   {tasks?.map(task => {
                      return (
                         <StyledTaskListElement
-                           key={task.name}
+                           key={task.id}
                            onClick={() => handleTaskClick(task)}
                         >
                            <span
@@ -75,7 +75,7 @@ const TaskPreview: FunctionComponent<TaskPreviewProps> = ({
             )}
          </div>
          <StyledDoneTasksListWrapper>
-            {/* <DoneTasks doneTasks={doneTasks} /> */}
+            <DoneTasks doneTasks={doneTasks} />
          </StyledDoneTasksListWrapper>
       </StyledCarouselWrapper>
    );
