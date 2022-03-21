@@ -15,13 +15,11 @@ const App: FunctionComponent = () => {
    const isUserLogged = useAppSelector(state => state.auth.isUserLogged);
    const dispatch = useAppDispatch();
 
-   useEffect(() => {
-      const unsubscribe = onAuthStateChanged(auth, firebaseUser => {
+   onAuthStateChanged(auth, firebaseUser => {
+      if (firebaseUser) {
          dispatch(login(firebaseUser));
-      });
-
-      return unsubscribe;
-   }, []);
+      }
+   });
 
    return isUserLogged ? <AuthenticatedApp /> : <UnauthenticatedApp />;
 };

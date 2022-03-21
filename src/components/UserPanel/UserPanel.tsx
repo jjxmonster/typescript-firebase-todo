@@ -34,7 +34,6 @@ const auth = getAuth(firebaseApp);
 const UserPanelContainer: FunctionComponent = () => {
    const classes = useStyles();
 
-   const user = useAppSelector(state => state.auth.user);
    const dispatch = useDispatch();
 
    const [isFormModalOpen, setIsFormModalOpen] = useState(false);
